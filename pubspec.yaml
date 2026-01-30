@@ -38,6 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   serverpod_cloud_cli: ^0.20.0
   cli_tools: ^0.10.0
+  flutter_bloc: ^9.0.0
+  get_it: ^8.0.0
+  go_router: ^14.0.0
 
 dev_dependencies:
   flutter_test:

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:scloud_desktop/l10n/app_localizations.dart';
 
-import 'auth_service.dart';
+import 'auth_cubit.dart';
 
 /// Logged-in screen: account identity and Sign out button.
 class LoggedInScreen extends StatelessWidget {
   const LoggedInScreen({
     super.key,
-    required this.authService,
+    required this.cubit,
     required this.identity,
   });
 
-  final AuthService authService;
+  final AuthCubit cubit;
   final String identity;
 
   @override
@@ -33,7 +33,7 @@ class LoggedInScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               FilledButton(
-                onPressed: () => authService.signOut(),
+                onPressed: () => cubit.signOut(),
                 child: Text(l10n.signOut),
               ),
             ],

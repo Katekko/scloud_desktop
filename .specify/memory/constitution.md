@@ -1,10 +1,10 @@
 <!--
   Sync Impact Report
-  Version change: 1.0.0 → 1.1.0
+  Version change: 1.1.0 → 1.2.0
   Modified principles: None
-  Added sections: Principle VI. Localization (l10n)
+  Added sections: Principle VII. Widgets as classes (no widget-returning functions)
   Removed sections: None
-  Templates: plan-template.md ✅ (Constitution Check should include l10n gate)
+  Templates: plan-template.md ✅ (Constitution Check unchanged)
              spec-template.md ✅ (no principle-specific changes)
              tasks-template.md ✅ (task categorization unchanged)
   Follow-up TODOs: None
@@ -61,6 +61,15 @@ and accessed via the generated l10n API. A default locale (e.g. English) MUST
 be defined. Rationale: Enables multiple languages and keeps copy in one place
 from the start.
 
+### VII. Widgets as classes (no widget-returning functions)
+
+UI MUST be built from proper Widget classes (StatelessWidget / StatefulWidget),
+not from functions that return a Widget. Do not write helpers like
+`Widget buildFoo() => ...`; use a dedicated widget class instead (e.g.
+`class Foo extends StatelessWidget`). Rationale: Flutter best practice; widget
+classes participate in const and rebuild optimizations; functions that return
+widgets do not and can cause unnecessary rebuilds.
+
 ## Additional Constraints
 
 - **Stack**: Flutter/Dart; Linux as primary desktop target.
@@ -87,4 +96,4 @@ documentation, version bump (semantic: MAJOR for breaking principle changes,
 MINOR for new principles/sections, PATCH for clarifications), and update of this
 file. Use README.md and specs for runtime and feature-level guidance.
 
-**Version**: 1.1.0 | **Ratified**: 2025-01-30 | **Last Amended**: 2025-01-30
+**Version**: 1.2.0 | **Ratified**: 2025-01-30 | **Last Amended**: 2025-01-30

@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:scloud_desktop/app.dart';
-import 'package:scloud_desktop/features/auth/auth_service.dart';
+import 'package:scloud_desktop/di/injection.dart';
+import 'package:scloud_desktop/features/auth/auth_cubit.dart';
+import 'package:scloud_desktop/features/auth/auth_repository.dart';
 import 'package:scloud_desktop/features/auth/login_screen.dart';
 import 'package:scloud_desktop/l10n/app_localizations.dart';
 import 'package:scloud_desktop/l10n/app_localizations_en.dart'
     show AppLocalizationsEn;
+import 'package:scloud_desktop/router/app_router.dart';
 
 /// Integration test for auth flow (per constitution):
 /// Start login → waiting state → success path or cancel.
 void main() {
+  setUp(() async {
+    getIt.reset();
+    await configureDependencies();
+    initRouter();
+  });
+
   testWidgets('App shows login screen when unauthenticated', (tester) async {
     await tester.pumpWidget(const App());
     await tester.pumpAndSettle();
@@ -35,15 +44,14 @@ void main() {
   testWidgets('Error state shows signInNotCompleted message on login screen', (
     tester,
   ) async {
-    final authService = AuthService();
-    addTearDown(authService.dispose);
+    final cubit = AuthCubit(AuthRepository());
 
     await tester.pumpWidget(
       MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: LoginScreen(
-          authService: authService,
+          cubit: cubit,
           errorMessage: 'signInNotCompleted',
         ),
       ),

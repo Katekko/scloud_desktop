@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:scloud_desktop/l10n/app_localizations.dart';
 
-import 'auth_service.dart';
+import 'auth_cubit.dart';
 
 /// Login screen: Log in button and error message area.
 /// Shows error when auth_state is error (e.g. signInNotCompleted).
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key, required this.authService, this.errorMessage});
+  const LoginScreen({super.key, required this.cubit, this.errorMessage});
 
-  final AuthService authService;
+  final AuthCubit cubit;
   final String? errorMessage;
 
   @override
@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 24),
               ],
               FilledButton(
-                onPressed: () => authService.login(),
+                onPressed: () => cubit.login(),
                 child: Text(l10n.logIn),
               ),
             ],
