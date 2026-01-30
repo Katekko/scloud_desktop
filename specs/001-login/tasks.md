@@ -23,9 +23,9 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create directory structure per plan: lib/theme/, lib/features/auth/, lib/l10n/, test/unit/, test/widget/, test/integration/
-- [ ] T002 Add dependencies in pubspec.yaml: serverpod_cloud_cli, flutter_localizations (sdk: flutter)
-- [ ] T003 [P] Configure linting in analysis_options.yaml for lib/ and test/
+- [x] T001 Create directory structure per plan: lib/theme/, lib/features/auth/, lib/l10n/, test/unit/, test/widget/, test/integration/
+- [x] T002 Add dependencies in pubspec.yaml: serverpod_cloud_cli, flutter_localizations (sdk: flutter)
+- [x] T003 [P] Configure linting in analysis_options.yaml for lib/ and test/
 
 ---
 
@@ -35,16 +35,16 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Create lib/theme/serverpod_colors.dart with Serverpod brand color constants (primary, surface, error, etc.)
-- [ ] T005 [P] Create lib/theme/app_theme.dart with ThemeData (light/dark) using serverpod_colors
-- [ ] T006 Create l10n.yaml at project root with arb-dir (e.g. lib/l10n) and output-dir as needed
-- [ ] T007 [P] Create lib/l10n/app_en.arb with @@locale "en" and keys: logIn, completeSignInInBrowser, signInNotCompleted, sessionExpired, networkError, signOut, and any other UI strings per contracts/login-flow.md
-- [ ] T008 Run flutter gen-l10n and add localizationsDelegates (AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate) and supportedLocales to MaterialApp in lib/app.dart
-- [ ] T009 Create lib/features/auth/auth_state.dart with auth flow states: unauthenticated, login_in_progress, authenticated(identity), error(message) per data-model.md and contracts/login-flow.md
-- [ ] T010 Create lib/features/auth/auth_service.dart using serverpod_cloud_cli for login flow, session read/write (same storage as scloud CLI), sign-out, and session validation; expose auth state stream or getter
-- [ ] T011 Add structured logging for auth flow and errors in lib/features/auth/auth_service.dart (login start, callback success/failure, sign-out, session restore/validation) and for auth_state transitions so debugging does not require CLI access (per constitution V)
-- [ ] T012 Create lib/app.dart with MaterialApp applying app_theme, localizationsDelegates, supportedLocales, and a simple navigator/router that will show login, waiting, or logged-in screen based on auth_state (placeholder routes ok; wiring in US1/US2)
-- [ ] T013 Update lib/main.dart to run the App widget
+- [x] T004 [P] Create lib/theme/serverpod_colors.dart with Serverpod brand color constants (primary, surface, error, etc.)
+- [x] T005 [P] Create lib/theme/app_theme.dart with ThemeData (light/dark) using serverpod_colors
+- [x] T006 Create l10n.yaml at project root with arb-dir (e.g. lib/l10n) and output-dir as needed
+- [x] T007 [P] Create lib/l10n/app_en.arb with @@locale "en" and keys: logIn, completeSignInInBrowser, signInNotCompleted, sessionExpired, networkError, signOut, and any other UI strings per contracts/login-flow.md
+- [x] T008 Run flutter gen-l10n and add localizationsDelegates (AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate) and supportedLocales to MaterialApp in lib/app.dart
+- [x] T009 Create lib/features/auth/auth_state.dart with auth flow states: unauthenticated, login_in_progress, authenticated(identity), error(message) per data-model.md and contracts/login-flow.md
+- [x] T010 Create lib/features/auth/auth_service.dart using serverpod_cloud_cli for login flow, session read/write (same storage as scloud CLI), sign-out, and session validation; expose auth state stream or getter
+- [x] T011 Add structured logging for auth flow and errors in lib/features/auth/auth_service.dart (login start, callback success/failure, sign-out, session restore/validation) and for auth_state transitions so debugging does not require CLI access (per constitution V)
+- [x] T012 Create lib/app.dart with MaterialApp applying app_theme, localizationsDelegates, supportedLocales, and a simple navigator/router that will show login, waiting, or logged-in screen based on auth_state (placeholder routes ok; wiring in US1/US2)
+- [x] T013 Update lib/main.dart to run the App widget
 
 **Checkpoint**: Foundation ready — theme, l10n, auth_service, auth_state, and app shell exist; user story implementation can begin
 
@@ -58,16 +58,16 @@
 
 ### Integration test for User Story 1 (per constitution)
 
-- [ ] T014 [P] [US1] Add integration test for auth flow (start login, waiting state, success path or cancel) in test/integration/auth_flow_test.dart
+- [x] T014 [P] [US1] Add integration test for auth flow (start login, waiting state, success path or cancel) in test/integration/auth_flow_test.dart
 
 ### Implementation for User Story 1
 
-- [ ] T015 [US1] Create lib/features/auth/login_screen.dart with Log in button and error message area; use AppLocalizations for all strings; show error when auth_state is error (e.g. signInNotCompleted)
-- [ ] T016 [US1] Create lib/features/auth/login_waiting_screen.dart showing completeSignInInBrowser via AppLocalizations
-- [ ] T017 [US1] Create lib/features/auth/logged_in_screen.dart showing account identity from auth_state and Sign out button using AppLocalizations for signOut
-- [ ] T018 [US1] In lib/app.dart (or a small router), show login_screen when unauthenticated, login_waiting_screen when login_in_progress, logged_in_screen when authenticated; wire auth_service.authState
-- [ ] T019 [US1] Wire login_screen "Log in" to call auth_service.login(); set state to login_in_progress and navigate to waiting screen; on auth callback set authenticated(identity) or error(signInNotCompleted/network) and navigate accordingly
-- [ ] T020 [US1] Handle cancel/abandon: when auth flow returns cancelled or abandoned, set auth_state to error with signInNotCompleted message; ensure login_screen displays it
+- [x] T015 [US1] Create lib/features/auth/login_screen.dart with Log in button and error message area; use AppLocalizations for all strings; show error when auth_state is error (e.g. signInNotCompleted)
+- [x] T016 [US1] Create lib/features/auth/login_waiting_screen.dart showing completeSignInInBrowser via AppLocalizations
+- [x] T017 [US1] Create lib/features/auth/logged_in_screen.dart showing account identity from auth_state and Sign out button using AppLocalizations for signOut
+- [x] T018 [US1] In lib/app.dart (or a small router), show login_screen when unauthenticated, login_waiting_screen when login_in_progress, logged_in_screen when authenticated; wire auth_service.authState
+- [x] T019 [US1] Wire login_screen "Log in" to call auth_service.login(); set state to login_in_progress and navigate to waiting screen; on auth callback set authenticated(identity) or error(signInNotCompleted/network) and navigate accordingly
+- [x] T020 [US1] Handle cancel/abandon: when auth flow returns cancelled or abandoned, set auth_state to error with signInNotCompleted message; ensure login_screen displays it
 
 **Checkpoint**: User Story 1 is fully functional — first-time login and cancel flow work and are testable independently
 
@@ -81,9 +81,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] On app startup (in lib/app.dart or main.dart), call auth_service to restore session from CLI storage; if valid set auth_state to authenticated(identity), else set unauthenticated and error(sessionExpired) when session invalid/expired
-- [ ] T022 [US2] Ensure UI shows logged_in_screen with correct account identity when session restored on startup; ensure login_screen is not shown when session is valid
-- [ ] T023 [US2] When restored session is invalid/expired, show sessionExpired message (from AppLocalizations) and login_screen per FR-007
+- [x] T021 [US2] On app startup (in lib/app.dart or main.dart), call auth_service to restore session from CLI storage; if valid set auth_state to authenticated(identity), else set unauthenticated and error(sessionExpired) when session invalid/expired
+- [x] T022 [US2] Ensure UI shows logged_in_screen with correct account identity when session restored on startup; ensure login_screen is not shown when session is valid
+- [x] T023 [US2] When restored session is invalid/expired, show sessionExpired message (from AppLocalizations) and login_screen per FR-007
 
 **Checkpoint**: User Stories 1 and 2 work — persistence and invalid-session handling are testable independently
 
@@ -97,8 +97,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T024 [US3] Implement auth_service.signOut() to clear session using same storage as scloud CLI and set auth_state to unauthenticated
-- [ ] T025 [US3] Wire logged_in_screen Sign out button to auth_service.signOut(); ensure app navigates to login_screen and does not perform any action with previous session
+- [x] T024 [US3] Implement auth_service.signOut() to clear session using same storage as scloud CLI and set auth_state to unauthenticated
+- [x] T025 [US3] Wire logged_in_screen Sign out button to auth_service.signOut(); ensure app navigates to login_screen and does not perform any action with previous session
 
 **Checkpoint**: All user stories are complete — login, persistence, invalid session, and sign-out work independently
 
@@ -108,8 +108,8 @@
 
 **Purpose**: Documentation and validation
 
-- [ ] T026 [P] Update README.md or docs with run instructions (flutter run -d linux, l10n: flutter gen-l10n)
-- [ ] T027 Run quickstart.md validation (manual or script): first-time login, persistence, sign-out, cancel, invalid session
+- [x] T026 [P] Update README.md or docs with run instructions (flutter run -d linux, l10n: flutter gen-l10n)
+- [x] T027 Run quickstart.md validation (manual or script): first-time login, persistence, sign-out, cancel, invalid session
 
 ---
 
