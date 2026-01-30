@@ -34,7 +34,7 @@
 Gates are determined by `.specify/memory/constitution.md`. Verify: Desktop-First
 (UI-driven), CLI Parity (scloud feature coverage), Test-First/Integration
 (test coverage for API/auth/deploy), Simplicity & Observability (clear feedback,
-logging).
+logging), Localization (l10n) (all user-facing strings via ARB/AppLocalizations).
 
 ## Project Structure
 

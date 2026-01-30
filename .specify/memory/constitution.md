@@ -1,13 +1,12 @@
 <!--
   Sync Impact Report
-  Version change: (none) → 1.0.0
-  Modified principles: N/A (initial adoption)
-  Added sections: All sections filled from template
+  Version change: 1.0.0 → 1.1.0
+  Modified principles: None
+  Added sections: Principle VI. Localization (l10n)
   Removed sections: None
-  Templates: plan-template.md ✅ (Constitution Check references constitution path)
-             spec-template.md ✅ (no principle-specific changes; scope/requirements align)
-             tasks-template.md ✅ (task categorization supports desktop/CLI parity)
-             commands/*.md: N/A (no commands folder present)
+  Templates: plan-template.md ✅ (Constitution Check should include l10n gate)
+             spec-template.md ✅ (no principle-specific changes)
+             tasks-template.md ✅ (task categorization unchanged)
   Follow-up TODOs: None
 -->
 
@@ -53,6 +52,15 @@ Errors and long-running operations MUST give clear, user-visible feedback.
 Structured logging and error reporting MUST support debugging without requiring
 CLI access. Rationale: Usability and debuggability for a desktop tool.
 
+### VI. Localization (l10n)
+
+All user-facing strings MUST be localized using Flutter’s default localization
+(flutter_localizations, ARB files, generated AppLocalizations). There MUST be
+no hardcoded user-visible text in the UI; strings MUST be defined in ARB files
+and accessed via the generated l10n API. A default locale (e.g. English) MUST
+be defined. Rationale: Enables multiple languages and keeps copy in one place
+from the start.
+
 ## Additional Constraints
 
 - **Stack**: Flutter/Dart; Linux as primary desktop target.
@@ -79,4 +87,4 @@ documentation, version bump (semantic: MAJOR for breaking principle changes,
 MINOR for new principles/sections, PATCH for clarifications), and update of this
 file. Use README.md and specs for runtime and feature-level guidance.
 
-**Version**: 1.0.0 | **Ratified**: 2025-01-30 | **Last Amended**: 2025-01-30
+**Version**: 1.1.0 | **Ratified**: 2025-01-30 | **Last Amended**: 2025-01-30
