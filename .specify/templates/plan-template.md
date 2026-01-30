@@ -31,7 +31,10 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Gates are determined by `.specify/memory/constitution.md`. Verify: Desktop-First
+(UI-driven), CLI Parity (scloud feature coverage), Test-First/Integration
+(test coverage for API/auth/deploy), Simplicity & Observability (clear feedback,
+logging).
 
 ## Project Structure
 

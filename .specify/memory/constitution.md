@@ -1,50 +1,82 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  Sync Impact Report
+  Version change: (none) → 1.0.0
+  Modified principles: N/A (initial adoption)
+  Added sections: All sections filled from template
+  Removed sections: None
+  Templates: plan-template.md ✅ (Constitution Check references constitution path)
+             spec-template.md ✅ (no principle-specific changes; scope/requirements align)
+             tasks-template.md ✅ (task categorization supports desktop/CLI parity)
+             commands/*.md: N/A (no commands folder present)
+  Follow-up TODOs: None
+-->
+
+# scloud_desktop Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Desktop-First
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The system is a desktop application, not a terminal CLI. All user interaction MUST
+occur through a graphical interface (Flutter UI). The primary target platform is
+Linux; other desktop platforms (macOS, Windows) MAY be supported. Rationale: The
+product exists to provide the same capabilities as the Serverpod Cloud CLI in a
+desktop-native, discoverable way.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. CLI Parity
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+The application MUST offer functional parity with the Serverpod Cloud CLI (scloud)
+for deploy and management workflows. Supported operations MUST include: auth
+(login), deploy, deployment show, status, logs, project, variable, secret, domain,
+and db where applicable. Implementation SHOULD use the serverpod_cloud_cli Dart
+package as a library where possible; otherwise behavior MUST match CLI outcomes.
+Rationale: Users expect the desktop app to replace the CLI for day-to-day use.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Test-First
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Tests MUST be written before or alongside implementation for critical paths
+(auth, deploy, status, API interactions). Red-Green-Refactor is preferred where
+practical. Rationale: Reduces regressions and documents expected behavior for
+a product that interacts with external services (Serverpod Cloud).
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Integration Testing
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Integration tests are REQUIRED for: Serverpod Cloud API interactions, auth flows,
+deploy workflows, and any contract with serverpod_cloud_cli or Ground Control.
+New features that call external services MUST have at least one integration test.
+Rationale: Desktop app correctness depends on real service behavior.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Simplicity & Observability
+
+The UI MUST remain simple and focused; avoid unnecessary complexity (YAGNI).
+Errors and long-running operations MUST give clear, user-visible feedback.
+Structured logging and error reporting MUST support debugging without requiring
+CLI access. Rationale: Usability and debuggability for a desktop tool.
+
+## Additional Constraints
+
+- **Stack**: Flutter/Dart; Linux as primary desktop target.
+- **Dependencies**: Prefer serverpod_cloud_cli (and its transitive deps) for
+  Serverpod Cloud operations; avoid reimplementing Cloud API contracts.
+- **Storage**: Use platform-appropriate persistent storage for auth and settings;
+  align with serverpod_cloud_cli persistent storage where sharing state is
+  desired (e.g. same login as scloud).
+
+## Development Workflow
+
+- Features MUST be specified in specs (user stories, requirements, acceptance
+  criteria) before implementation.
+- An implementation plan (plan.md) MUST reference this constitution and pass a
+  Constitution Check before Phase 0 research.
+- Task lists (tasks.md) MUST be derived from specs and plans; task categories
+  MUST reflect principle-driven types (e.g. integration tests, CLI parity).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes ad-hoc practices for scloud_desktop. All PRs and
+reviews MUST verify compliance with the principles above. Amendments REQUIRE
+documentation, version bump (semantic: MAJOR for breaking principle changes,
+MINOR for new principles/sections, PATCH for clarifications), and update of this
+file. Use README.md and specs for runtime and feature-level guidance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-01-30 | **Last Amended**: 2025-01-30
