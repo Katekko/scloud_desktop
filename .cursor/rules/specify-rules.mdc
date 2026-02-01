@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-01-30
 
 ## Active Technologies
+- Flutter 3.38.8 (Dart per pubspec) + Flutter SDK, flutter_localizations, serverpod_cloud_cli (project list, status — same as CLI), Material/Cupertino for UI (002-project-status)
+- Session-only in-memory for current project (not persisted across app restarts); auth/session remains per Login feature (serverpod_cloud_cli persistent storage) (002-project-status)
 
 - Dart 3.10.x / Flutter (SDK per pubspec) + Flutter SDK, serverpod_cloud_cli (for auth/session and CLI parity), Material/Cupertino for UI (001-login)
 
@@ -22,6 +24,7 @@ tests/
 Dart 3.10.x / Flutter (SDK per pubspec): Follow standard conventions
 
 ## Recent Changes
+- 002-project-status: Added Flutter 3.38.8 (Dart per pubspec) + Flutter SDK, flutter_localizations, serverpod_cloud_cli (project list, status — same as CLI), Material/Cupertino for UI
 
 - 001-login: Added Dart 3.10.x / Flutter (SDK per pubspec) + Flutter SDK, serverpod_cloud_cli (for auth/session and CLI parity), Material/Cupertino for UI
 
