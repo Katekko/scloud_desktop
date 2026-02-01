@@ -37,6 +37,12 @@ flutter gen-l10n
 - **Sign out**: Tap "Sign out" → login screen; next launch shows login screen.
 - **Invalid session**: If session is expired/revoked, app shows "Session expired. Please sign in again." and login screen.
 
+## Project list and status
+
+- **Project list**: After login, home shows the project list with linked/available indicator per project.
+- **Project details**: Tap a project to open its details (deployment state, deploy history).
+- **Session-only**: Current project is not persisted across app restarts. Sign out clears the current project.
+
 ## Resources
 
 - [Flutter documentation](https://docs.flutter.dev/)

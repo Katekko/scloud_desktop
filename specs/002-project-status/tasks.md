@@ -24,9 +24,9 @@
 
 **Purpose**: Feature directories and l10n placeholders for project/status
 
-- [ ] T001 Create directory structure per plan: lib/features/projects/, lib/features/status/
-- [ ] T002 Verify serverpod_cloud_cli is in pubspec.yaml (already present from 001-login)
-- [ ] T003 [P] Add l10n keys for project list and status in lib/l10n/app_en.arb: projectListTitle, noProjectsYet, projectListLoading, projectListErrorRetry, linked, available, noProjectSelected, chooseProjectToViewStatus, statusTitle, deploymentState, lastDeployTime, environment, statusErrorRetry, invalidServerDirectory (per contracts)
+- [x] T001 Create directory structure per plan: lib/features/projects/, lib/features/status/
+- [x] T002 Verify serverpod_cloud_cli is in pubspec.yaml (already present from 001-login)
+- [x] T003 [P] Add l10n keys for project list and status in lib/l10n/app_en.arb: projectListTitle, noProjectsYet, projectListLoading, projectListErrorRetry, linked, available, noProjectSelected, chooseProjectToViewStatus, statusTitle, deploymentState, lastDeployTime, environment, statusErrorRetry, invalidServerDirectory (per contracts)
 
 ---
 
@@ -36,11 +36,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Create Project model in lib/features/projects/project.dart with id, displayName, isLinked (or linkedOrAvailable) per data-model.md
-- [ ] T005 [P] Create ProjectStatus model in lib/features/projects/project_status.dart with deploymentState, lastDeployTime, environment (optional) per data-model.md
-- [ ] T006 Create ProjectRepository in lib/features/projects/project_repository.dart using serverpod_cloud_cli to fetch project list and fetch status for a project (per research.md and plan)
-- [ ] T007 Add route /status in lib/router/app_router.dart; redirect unauthenticated users to login when accessing /home or /status. Post-login: user goes to /home; /home displays the project list (available projects) — i.e. home screen shows ProjectListScreen content
-- [ ] T008 Register ProjectRepository in lib/di/injection.dart
+- [x] T004 [P] Create Project model in lib/features/projects/project.dart with id, displayName, isLinked (or linkedOrAvailable) per data-model.md
+- [x] T005 [P] Create ProjectStatus model in lib/features/projects/project_status.dart with deploymentState, lastDeployTime, environment (optional) per data-model.md
+- [x] T006 Create ProjectRepository in lib/features/projects/project_repository.dart using serverpod_cloud_cli to fetch project list and fetch status for a project (per research.md and plan)
+- [x] T007 Add route /status in lib/router/app_router.dart; redirect unauthenticated users to login when accessing /home or /status. Post-login: user goes to /home; /home displays the project list (available projects) — i.e. home screen shows ProjectListScreen content
+- [x] T008 Register ProjectRepository in lib/di/injection.dart
 
 **Checkpoint**: Foundation ready — models, repository, and routes exist; user story implementation can begin
 
@@ -54,15 +54,15 @@
 
 ### Integration test for User Story 1 (per constitution)
 
-- [ ] T009 [P] [US1] Add integration test for project list flow (login, go to home, see project list or empty on home) in test/integration/project_status_flow_test.dart
+- [x] T009 [P] [US1] Add integration test for project list flow (login, go to home, see project list or empty on home) in test/integration/project_status_flow_test.dart
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Create ProjectListCubit in lib/features/projects/project_list_cubit.dart with states: loading, loaded(List<Project>), empty, error(message); and currentProject (Project?); methods loadProjects(), selectProject(Project), clearCurrentProject(); use ProjectRepository per contracts/project-list-flow.md
-- [ ] T011 [US1] Create ProjectListScreen widget class in lib/features/projects/project_list_screen.dart: show loading / empty / loaded / error per contract; single scrollable list with visible indicator (label or icon) for linked vs available per project; on tap project call cubit.selectProject(project) per FR-001, FR-002, FR-004, FR-010
-- [ ] T012 [US1] Register ProjectListCubit in lib/di/injection.dart (lazy singleton or factory so StatusCubit can read currentProject); wire ProjectListScreen to /home in lib/router/app_router.dart so that when user is logged in, home shows the project list (available projects)
-- [ ] T013 [US1] Use AppLocalizations in ProjectListScreen for noProjectsYet, projectListLoading, projectListErrorRetry, linked, available (no hardcoded strings) per FR-002 and contracts
-- [ ] T014 [US1] Add structured logging for project list load and errors in lib/features/projects/project_list_cubit.dart and lib/features/projects/project_repository.dart per constitution V
+- [x] T010 [US1] Create ProjectListCubit in lib/features/projects/project_list_cubit.dart with states: loading, loaded(List<Project>), empty, error(message); and currentProject (Project?); methods loadProjects(), selectProject(Project), clearCurrentProject(); use ProjectRepository per contracts/project-list-flow.md
+- [x] T011 [US1] Create ProjectListScreen widget class in lib/features/projects/project_list_screen.dart: show loading / empty / loaded / error per contract; single scrollable list with visible indicator (label or icon) for linked vs available per project; on tap project call cubit.selectProject(project) per FR-001, FR-002, FR-004, FR-010
+- [x] T012 [US1] Register ProjectListCubit in lib/di/injection.dart (lazy singleton or factory so StatusCubit can read currentProject); wire ProjectListScreen to /home in lib/router/app_router.dart so that when user is logged in, home shows the project list (available projects)
+- [x] T013 [US1] Use AppLocalizations in ProjectListScreen for noProjectsYet, projectListLoading, projectListErrorRetry, linked, available (no hardcoded strings) per FR-002 and contracts
+- [x] T014 [US1] Add structured logging for project list load and errors in lib/features/projects/project_list_cubit.dart and lib/features/projects/project_repository.dart per constitution V
 
 **Checkpoint**: User Story 1 is fully functional — project list with indicator, loading/empty/error, click to set current project; testable independently
 
@@ -76,14 +76,14 @@
 
 ### Integration test for User Story 2 (per constitution)
 
-- [ ] T015 [P] [US2] Add integration test for status flow (select project, navigate to status, see status; or no current project → see message) in test/integration/project_status_flow_test.dart
+- [x] T015 [P] [US2] Add integration test for status flow (select project, navigate to status, see status; or no current project → see message) in test/integration/project_status_flow_test.dart
 
 ### Implementation for User Story 2
 
-- [ ] T016 [US2] Create StatusCubit in lib/features/status/status_cubit.dart with states: noCurrentProject, loading, loaded(ProjectStatus), error(message); method loadStatus() that reads current project from get_it<ProjectListCubit>.state.currentProject and calls ProjectRepository.getStatus(projectId); per contracts/status-screen.md
-- [ ] T017 [US2] Create StatusScreen widget class in lib/features/status/status_screen.dart: show noCurrentProject message or prompt (FR-007), or loading, or deployment state + last deploy time + environment (FR-003), or error with retry (FR-008); use AppLocalizations for all strings
-- [ ] T018 [US2] Register StatusCubit in lib/di/injection.dart and add /status route in lib/router/app_router.dart; add navigation from project list to status (e.g. "View status" button or app bar action that navigates to /status)
-- [ ] T019 [US2] Add structured logging for status load in lib/features/status/status_cubit.dart per constitution V
+- [x] T016 [US2] Create StatusCubit in lib/features/status/status_cubit.dart with states: noCurrentProject, loading, loaded(ProjectStatus), error(message); method loadStatus() that reads current project from get_it<ProjectListCubit>.state.currentProject and calls ProjectRepository.getStatus(projectId); per contracts/status-screen.md
+- [x] T017 [US2] Create StatusScreen widget class in lib/features/status/status_screen.dart: show noCurrentProject message or prompt (FR-007), or loading, or deployment state + last deploy time + environment (FR-003), or error with retry (FR-008); use AppLocalizations for all strings
+- [x] T018 [US2] Register StatusCubit in lib/di/injection.dart and add /status route in lib/router/app_router.dart; add navigation from project list to status (e.g. "View status" button or app bar action that navigates to /status)
+- [x] T019 [US2] Add structured logging for status load in lib/features/status/status_cubit.dart per constitution V
 
 **Checkpoint**: User Stories 1 and 2 work — list, select project, view status; no-current-project and error handling testable independently
 
@@ -97,9 +97,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Implement server directory validation in lib/features/projects/project_repository.dart (or lib/features/projects/server_directory_validator.dart): resolve project from directory path (e.g. serverpod config, link to Cloud project per research.md); return Project if valid, null or throw with reason if invalid
-- [ ] T021 [US3] Add "Choose server directory" option to project list UI (e.g. button or menu in lib/features/projects/project_list_screen.dart); on directory selected call repository validation; if valid call ProjectListCubit.selectProject(resolvedProject), else show invalidServerDirectory message via AppLocalizations (FR-005)
-- [ ] T022 [US3] Ensure current project is cleared on sign out: when AuthCubit transitions to unauthenticated, call ProjectListCubit.clearCurrentProject() (e.g. from AuthCubit.signOut() or router redirect) per FR-006, FR-009
+- [x] T020 [US3] Implement server directory validation in lib/features/projects/project_repository.dart (or lib/features/projects/server_directory_validator.dart): resolve project from directory path (e.g. serverpod config, link to Cloud project per research.md); return Project if valid, null or throw with reason if invalid
+- [x] T021 [US3] Add "Choose server directory" option to project list UI (e.g. button or menu in lib/features/projects/project_list_screen.dart); on directory selected call repository validation; if valid call ProjectListCubit.selectProject(resolvedProject), else show invalidServerDirectory message via AppLocalizations (FR-005)
+- [x] T022 [US3] Ensure current project is cleared on sign out: when AuthCubit transitions to unauthenticated, call ProjectListCubit.clearCurrentProject() (e.g. from AuthCubit.signOut() or router redirect) per FR-006, FR-009
 
 **Checkpoint**: All user stories complete — list, status, click-to-select, optional server directory, current project cleared on sign out
 
@@ -109,7 +109,7 @@
 
 **Purpose**: Documentation and validation
 
-- [ ] T023 [P] Update README.md or docs with project list and status usage (navigate to projects, select project, view status) per quickstart.md
+- [x] T023 [P] Update README.md or docs with project list and status usage (navigate to projects, select project, view status) per quickstart.md
 - [ ] T024 Run quickstart.md validation for 002-project-status: list, select, status, no persistence across restart, sign out clears current project
 
 ---
