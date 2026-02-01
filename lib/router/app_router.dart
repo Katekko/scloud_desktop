@@ -4,15 +4,19 @@ import 'package:go_router/go_router.dart';
 import '../di/injection.dart';
 import '../features/auth/auth_cubit.dart';
 import '../features/auth/auth_state.dart';
-import '../features/auth/logged_in_screen.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/login_waiting_screen.dart';
+import '../features/projects/project_list_cubit.dart';
+import '../features/projects/project_list_screen.dart';
+import '../features/status/status_cubit.dart';
+import '../features/status/status_screen.dart';
 
 /// Route paths.
 abstract final class AppRoutes {
   static const String login = '/login';
   static const String loginWaiting = '/login-waiting';
   static const String home = '/home';
+  static const String status = '/status';
 }
 
 /// Registers [GoRouter] with get_it and must be called after [configureDependencies].
@@ -38,7 +42,9 @@ GoRouter createAppRouter() {
       if (authState is LoginInProgress && path != AppRoutes.loginWaiting) {
         return AppRoutes.loginWaiting;
       }
-      if (authState is Authenticated && path != AppRoutes.home) {
+      if (authState is Authenticated &&
+          path != AppRoutes.home &&
+          path != AppRoutes.status) {
         return AppRoutes.home;
       }
       if (authState is AuthError) {
@@ -71,7 +77,20 @@ GoRouter createAppRouter() {
           if (authState is! Authenticated) {
             return const SizedBox.shrink();
           }
-          return LoggedInScreen(cubit: cubit, identity: authState.identity);
+          return ProjectListScreen(
+            cubit: getIt<ProjectListCubit>(),
+            authCubit: cubit,
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.status,
+        builder: (BuildContext context, GoRouterState state) {
+          final authState = cubit.state;
+          if (authState is! Authenticated) {
+            return const SizedBox.shrink();
+          }
+          return StatusScreen(cubit: getIt<StatusCubit>());
         },
       ),
     ],

@@ -230,7 +230,7 @@ packages:
     source: hosted
     version: "14.8.1"
   ground_control_client:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: ground_control_client
       sha256: "1968696683a142eee203570f81dce21e6778bb884df6bb1f5710556c3a7a5482"

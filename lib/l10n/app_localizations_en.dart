@@ -25,4 +25,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signOut => 'Sign out';
+
+  @override
+  String get projectListTitle => 'Projects';
+
+  @override
+  String get noProjectsYet => 'No projects yet';
+
+  @override
+  String get projectListLoading => 'Loading projects…';
+
+  @override
+  String get projectListErrorRetry => 'Failed to load projects. Tap to retry.';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get linked => 'Linked';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get noProjectSelected => 'No project selected';
+
+  @override
+  String get chooseProjectToViewStatus =>
+      'Choose a project from the list to view its details.';
+
+  @override
+  String get goToProjectList => 'Go to project list';
+
+  @override
+  String get viewStatus => 'View status';
+
+  @override
+  String get statusTitle => 'Status';
+
+  @override
+  String get projectDetailsTitle => 'Project details';
+
+  @override
+  String get deployHistory => 'Deploy history';
+
+  @override
+  String get deployId => 'Deploy ID';
+
+  @override
+  String get started => 'Started';
+
+  @override
+  String get finished => 'Finished';
+
+  @override
+  String get noDeploysYet => 'No deploys yet';
+
+  @override
+  String get deploymentState => 'Deployment state';
+
+  @override
+  String get lastDeployTime => 'Last deploy';
+
+  @override
+  String get environment => 'Environment';
+
+  @override
+  String get statusErrorRetry => 'Failed to load status. Tap to retry.';
+
+  @override
+  String get invalidServerDirectory =>
+      'The selected folder is not a valid Serverpod server linked to Cloud.';
+
+  @override
+  String get chooseServerDirectory => 'Choose server directory';
 }

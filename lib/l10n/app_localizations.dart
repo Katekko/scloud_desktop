@@ -129,6 +129,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign out'**
   String get signOut;
+
+  /// No description provided for @projectListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get projectListTitle;
+
+  /// No description provided for @noProjectsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No projects yet'**
+  String get noProjectsYet;
+
+  /// No description provided for @projectListLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading projects…'**
+  String get projectListLoading;
+
+  /// No description provided for @projectListErrorRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load projects. Tap to retry.'**
+  String get projectListErrorRetry;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @linked.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked'**
+  String get linked;
+
+  /// No description provided for @available.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// No description provided for @noProjectSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No project selected'**
+  String get noProjectSelected;
+
+  /// No description provided for @chooseProjectToViewStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a project from the list to view its details.'**
+  String get chooseProjectToViewStatus;
+
+  /// No description provided for @goToProjectList.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to project list'**
+  String get goToProjectList;
+
+  /// No description provided for @viewStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'View status'**
+  String get viewStatus;
+
+  /// No description provided for @statusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get statusTitle;
+
+  /// No description provided for @projectDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project details'**
+  String get projectDetailsTitle;
+
+  /// No description provided for @deployHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploy history'**
+  String get deployHistory;
+
+  /// No description provided for @deployId.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploy ID'**
+  String get deployId;
+
+  /// No description provided for @started.
+  ///
+  /// In en, this message translates to:
+  /// **'Started'**
+  String get started;
+
+  /// No description provided for @finished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get finished;
+
+  /// No description provided for @noDeploysYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No deploys yet'**
+  String get noDeploysYet;
+
+  /// No description provided for @deploymentState.
+  ///
+  /// In en, this message translates to:
+  /// **'Deployment state'**
+  String get deploymentState;
+
+  /// No description provided for @lastDeployTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Last deploy'**
+  String get lastDeployTime;
+
+  /// No description provided for @environment.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment'**
+  String get environment;
+
+  /// No description provided for @statusErrorRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load status. Tap to retry.'**
+  String get statusErrorRetry;
+
+  /// No description provided for @invalidServerDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'The selected folder is not a valid Serverpod server linked to Cloud.'**
+  String get invalidServerDirectory;
+
+  /// No description provided for @chooseServerDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose server directory'**
+  String get chooseServerDirectory;
 }
 
 class _AppLocalizationsDelegate

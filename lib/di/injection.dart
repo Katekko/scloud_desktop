@@ -3,6 +3,9 @@ import 'package:get_it/get_it.dart';
 
 import '../features/auth/auth_cubit.dart';
 import '../features/auth/auth_repository.dart';
+import '../features/projects/project_list_cubit.dart';
+import '../features/projects/project_repository.dart';
+import '../features/status/status_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -22,6 +25,13 @@ Future<void> configureDependencies() async {
     )
     ..registerLazySingleton<AuthRefreshNotifier>(
       () => AuthRefreshNotifier(getIt<AuthCubit>()),
+    )
+    ..registerLazySingleton<ProjectRepository>(ProjectRepository.new)
+    ..registerLazySingleton<ProjectListCubit>(
+      () => ProjectListCubit(getIt<ProjectRepository>()),
+    )
+    ..registerFactory<StatusCubit>(
+      () => StatusCubit(getIt<ProjectRepository>()),
     );
 
   getIt<AuthCubit>().restoreSession();
