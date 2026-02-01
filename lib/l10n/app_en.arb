@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "logIn": "Log in",
+  "completeSignInInBrowser": "Complete sign-in in browser",
+  "signInNotCompleted": "Sign-in was not completed.",
+  "sessionExpired": "Session expired. Please sign in again.",
+  "networkError": "A network error occurred. Please try again.",
+  "signOut": "Sign out"
+}
