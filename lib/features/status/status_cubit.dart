@@ -9,11 +9,9 @@ import 'status_state.dart';
 
 /// Cubit for status screen: loads status for current project.
 class StatusCubit extends Cubit<StatusState> {
-  StatusCubit(
-    this._repository, {
-    ProjectListCubit? projectListCubit,
-  })  : _projectListCubit = projectListCubit ?? getIt<ProjectListCubit>(),
-        super(const StatusNoCurrentProject());
+  StatusCubit(this._repository, {ProjectListCubit? projectListCubit})
+    : _projectListCubit = projectListCubit ?? getIt<ProjectListCubit>(),
+      super(const StatusNoCurrentProject());
 
   final ProjectRepository _repository;
   final ProjectListCubit _projectListCubit;
@@ -31,10 +29,13 @@ class StatusCubit extends Cubit<StatusState> {
     AppDebug.log('StatusCubit', 'loadStatus for ${current.id}');
     try {
       final details = await _repository.fetchProjectDetails(current.id);
-      emit(StatusLoaded(
-        status: details.status,
-        deployAttempts: details.deployAttempts,
-      ));
+      emit(
+        StatusLoaded(
+          projectId: current.id,
+          status: details.status,
+          deployAttempts: details.deployAttempts,
+        ),
+      );
     } catch (e) {
       AppDebug.logError('StatusCubit', 'loadStatus error: $e');
       emit(StatusError(e.toString()));

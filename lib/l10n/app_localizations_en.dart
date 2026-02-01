@@ -99,4 +99,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chooseServerDirectory => 'Choose server directory';
+
+  @override
+  String buildLogTitle(String attemptId) {
+    return 'Build log - $attemptId';
+  }
+
+  @override
+  String get loadingLogs => 'Loading logs…';
+
+  @override
+  String get noLogs => 'No logs.';
+
+  @override
+  String get timestamp => 'Timestamp';
+
+  @override
+  String get severity => 'Severity';
+
+  @override
+  String get content => 'Content';
+
+  @override
+  String get containerLogsTitle => 'Container logs';
+
+  @override
+  String get tailingLogs => 'Tailing logs…';
 }

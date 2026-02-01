@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 
 import '../features/auth/auth_cubit.dart';
 import '../features/auth/auth_repository.dart';
+import '../features/logs/container_logs_cubit.dart';
+import '../features/logs/deploy_build_log_cubit.dart';
 import '../features/projects/project_list_cubit.dart';
 import '../features/projects/project_repository.dart';
 import '../features/status/status_cubit.dart';
@@ -30,8 +32,14 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton<ProjectListCubit>(
       () => ProjectListCubit(getIt<ProjectRepository>()),
     )
-    ..registerFactory<StatusCubit>(
+    ..registerLazySingleton<StatusCubit>(
       () => StatusCubit(getIt<ProjectRepository>()),
+    )
+    ..registerFactory<ContainerLogsCubit>(
+      () => ContainerLogsCubit(getIt<ProjectRepository>()),
+    )
+    ..registerFactory<DeployBuildLogCubit>(
+      () => DeployBuildLogCubit(getIt<ProjectRepository>()),
     );
 
   getIt<AuthCubit>().restoreSession();

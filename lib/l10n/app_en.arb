@@ -29,5 +29,20 @@
   "environment": "Environment",
   "statusErrorRetry": "Failed to load status. Tap to retry.",
   "invalidServerDirectory": "The selected folder is not a valid Serverpod server linked to Cloud.",
-  "chooseServerDirectory": "Choose server directory"
+  "chooseServerDirectory": "Choose server directory",
+  "buildLogTitle": "Build log - {attemptId}",
+  "@buildLogTitle": {
+    "placeholders": {
+      "attemptId": {
+        "type": "String"
+      }
+    }
+  },
+  "loadingLogs": "Loading logs…",
+  "noLogs": "No logs.",
+  "timestamp": "Timestamp",
+  "severity": "Severity",
+  "content": "Content",
+  "containerLogsTitle": "Container logs",
+  "tailingLogs": "Tailing logs…"
 }

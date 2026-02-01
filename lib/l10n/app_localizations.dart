@@ -273,6 +273,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose server directory'**
   String get chooseServerDirectory;
+
+  /// No description provided for @buildLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build log - {attemptId}'**
+  String buildLogTitle(String attemptId);
+
+  /// No description provided for @loadingLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading logs…'**
+  String get loadingLogs;
+
+  /// No description provided for @noLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs.'**
+  String get noLogs;
+
+  /// No description provided for @timestamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Timestamp'**
+  String get timestamp;
+
+  /// No description provided for @severity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get severity;
+
+  /// No description provided for @content.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get content;
+
+  /// No description provided for @containerLogsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Container logs'**
+  String get containerLogsTitle;
+
+  /// No description provided for @tailingLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Tailing logs…'**
+  String get tailingLogs;
 }
 
 class _AppLocalizationsDelegate

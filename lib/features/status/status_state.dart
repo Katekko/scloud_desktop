@@ -18,10 +18,12 @@ final class StatusLoading extends StatusState {
 /// Project details (status + deploy history) available.
 final class StatusLoaded extends StatusState {
   const StatusLoaded({
+    required this.projectId,
     required this.status,
     required this.deployAttempts,
   });
 
+  final String projectId;
   final ProjectStatus status;
   final List<DeployAttemptInfo> deployAttempts;
 }

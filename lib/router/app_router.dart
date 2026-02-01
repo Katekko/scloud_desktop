@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../di/injection.dart';
@@ -6,6 +7,10 @@ import '../features/auth/auth_cubit.dart';
 import '../features/auth/auth_state.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/login_waiting_screen.dart';
+import '../features/logs/container_logs_cubit.dart';
+import '../features/logs/container_logs_screen.dart';
+import '../features/logs/deploy_build_log_cubit.dart';
+import '../features/logs/deploy_build_log_screen.dart';
 import '../features/projects/project_list_cubit.dart';
 import '../features/projects/project_list_screen.dart';
 import '../features/status/status_cubit.dart';
@@ -17,6 +22,8 @@ abstract final class AppRoutes {
   static const String loginWaiting = '/login-waiting';
   static const String home = '/home';
   static const String status = '/status';
+  static const String deployLog = '/deploy-log';
+  static const String containerLogs = '/container-logs';
 }
 
 /// Registers [GoRouter] with get_it and must be called after [configureDependencies].
@@ -44,7 +51,9 @@ GoRouter createAppRouter() {
       }
       if (authState is Authenticated &&
           path != AppRoutes.home &&
-          path != AppRoutes.status) {
+          path != AppRoutes.status &&
+          path != AppRoutes.deployLog &&
+          path != AppRoutes.containerLogs) {
         return AppRoutes.home;
       }
       if (authState is AuthError) {
@@ -91,6 +100,39 @@ GoRouter createAppRouter() {
             return const SizedBox.shrink();
           }
           return StatusScreen(cubit: getIt<StatusCubit>());
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.deployLog,
+        builder: (BuildContext context, GoRouterState state) {
+          final args = DeployBuildLogScreen.argsFromExtra(state.extra);
+          if (args == null) {
+            return const SizedBox.shrink();
+          }
+          final cubit = getIt<DeployBuildLogCubit>();
+          cubit.load(args.projectId, args.attemptId);
+          return BlocProvider.value(
+            value: cubit,
+            child: DeployBuildLogScreen(
+              projectId: args.projectId,
+              attemptId: args.attemptId,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.containerLogs,
+        builder: (BuildContext context, GoRouterState state) {
+          final projectId = ContainerLogsScreen.projectIdFromExtra(state.extra);
+          if (projectId == null) {
+            return const SizedBox.shrink();
+          }
+          final cubit = getIt<ContainerLogsCubit>();
+          cubit.startTailing(projectId);
+          return BlocProvider.value(
+            value: cubit,
+            child: ContainerLogsScreen(projectId: projectId),
+          );
         },
       ),
     ],

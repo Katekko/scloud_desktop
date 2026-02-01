@@ -1,5 +1,6 @@
-import 'package:ground_control_client/ground_control_client.dart'
-    hide Project;
+import 'dart:async';
+
+import 'package:ground_control_client/ground_control_client.dart' hide Project;
 import 'package:serverpod_cloud_cli/command_logger/command_logger.dart';
 import 'package:serverpod_cloud_cli/command_runner/cloud_cli_command_runner.dart';
 import 'package:serverpod_cloud_cli/command_runner/helpers/cloud_cli_service_provider.dart';
@@ -59,15 +60,18 @@ class ProjectRepository {
       }
 
       final active =
-          projects.where((p) => p.project.archivedAt == null).toList()
-            ..sort((a, b) => a.project.createdAt.compareTo(b.project.createdAt));
+          projects.where((p) => p.project.archivedAt == null).toList()..sort(
+            (a, b) => a.project.createdAt.compareTo(b.project.createdAt),
+          );
 
       return active
-          .map((p) => Project(
-                id: p.project.cloudProjectId,
-                displayName: p.project.cloudProjectId,
-                isLinked: linkedIds.contains(p.project.cloudProjectId),
-              ))
+          .map(
+            (p) => Project(
+              id: p.project.cloudProjectId,
+              displayName: p.project.cloudProjectId,
+              isLinked: linkedIds.contains(p.project.cloudProjectId),
+            ),
+          )
           .toList();
     } on FailureException catch (e) {
       AppDebug.logError(
@@ -88,7 +92,7 @@ class ProjectRepository {
   /// Uses [projectId] as cloudCapsuleId (standard for Serverpod Cloud).
   /// [deployLimit] limits how many deploy attempts to return (default 20).
   Future<({ProjectStatus status, List<DeployAttemptInfo> deployAttempts})>
-      fetchProjectDetails(String projectId, {int deployLimit = 20}) async {
+  fetchProjectDetails(String projectId, {int deployLimit = 20}) async {
     final provider = CloudCliServiceProvider();
     provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
 
@@ -101,13 +105,15 @@ class ProjectRepository {
       );
 
       final deployAttempts = attempts
-          .map((a) => DeployAttemptInfo(
-                id: a.attemptId,
-                status: _deploymentStateDisplay(a.status),
-                startedAt: _formatDateTime(a.startedAt),
-                endedAt: _formatDateTime(a.endedAt),
-                statusInfo: a.statusInfo,
-              ))
+          .map(
+            (a) => DeployAttemptInfo(
+              id: a.attemptId,
+              status: _deploymentStateDisplay(a.status),
+              startedAt: _formatDateTime(a.startedAt),
+              endedAt: _formatDateTime(a.endedAt),
+              statusInfo: a.statusInfo,
+            ),
+          )
           .toList();
 
       final status = attempts.isEmpty
@@ -154,6 +160,73 @@ class ProjectRepository {
       DeployProgressStatus.cancelled => 'Cancelled',
       DeployProgressStatus.unknown => 'Unknown',
     };
+  }
+
+  /// Fetches build log records for a deploy attempt.
+  ///
+  /// [projectId] is the cloud capsule/project id. Collects the stream into
+  /// a list and shuts down the provider when done.
+  Future<List<LogRecord>> fetchBuildLog(
+    String projectId,
+    String attemptId,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      final client = provider.cloudApiClient;
+      final stream = client.logs.fetchBuildLog(
+        cloudCapsuleId: projectId,
+        attemptId: attemptId,
+      );
+      final records = <LogRecord>[];
+      await for (final record in stream) {
+        records.add(record);
+      }
+      return records;
+    } on FailureException catch (e) {
+      AppDebug.logError(
+        'ProjectRepository',
+        'fetchBuildLog failed: ${e.reason}',
+      );
+      rethrow;
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'fetchBuildLog error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Streams container log records for a project (real-time tail).
+  ///
+  /// [projectId] is the cloud capsule id. Stream never completes; cancel
+  /// the subscription and the controller's onCancel will shutdown the provider.
+  Stream<LogRecord> streamContainerLogs(String projectId, {int limit = 500}) {
+    late final CloudCliServiceProvider provider;
+    late final StreamSubscription<LogRecord> subscription;
+
+    final controller = StreamController<LogRecord>.broadcast();
+    controller.onListen = () {
+      provider = CloudCliServiceProvider();
+      provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+      final source = provider.cloudApiClient.logs.tailRecords(
+        cloudCapsuleId: projectId,
+        limit: limit,
+      );
+      subscription = source.listen(
+        controller.add,
+        onError: controller.addError,
+        onDone: () {
+          provider.shutdown();
+        },
+      );
+    };
+    controller.onCancel = () {
+      subscription.cancel();
+      provider.shutdown();
+    };
+    return controller.stream;
   }
 
   /// Resolves a [Project] from a server directory path.
