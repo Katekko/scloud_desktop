@@ -1,0 +1,67 @@
+# Build Linux desktop artifact and publish a GitHub Release when a version tag is pushed.
+# Usage: git tag v1.0.0 && git push origin v1.0.0
+# Ensure pubspec.yaml version matches the tag (e.g. 1.0.0+1).
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'   # e.g. v1.0.0, v1.2.3
+
+permissions:
+  contents: write   # needed to create the release and upload assets
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Linux
+        run: flutter build linux
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64
+          path: build/linux/x64/release/bundle/
+
+  release:
+    needs: [build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-x64
+          path: artifacts/linux-x64
+
+      - name: Create archive for Linux
+        run: |
+          cd artifacts/linux-x64
+          zip -r ../../scloud_desktop-linux-x64.zip .
+          cd ../..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: scloud_desktop-linux-x64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

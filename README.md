@@ -1,26 +1,68 @@
 # scloud_desktop
 
-Flutter desktop app for Serverpod Cloud: login, session (shared with scloud CLI), theme, and localization.
+Flutter desktop app for [Serverpod Cloud](https://serverpod.cloud): login, session (shared with scloud CLI), theme, and localization.
 
-## Getting Started
+## Getting the app
 
-### Prerequisites
+### Option 1: Download a release (recommended)
 
-- Flutter SDK (see `pubspec.yaml`)
-- Linux desktop (primary target); macOS/Windows optional
+1. Go to [Releases](https://github.com/Katekko/scloud_desktop/releases).
+2. Download the Linux archive.
+3. Unpack and run the app (see the release notes for platform-specific steps).
 
-### Install and run
+### Option 2: Build from source
 
-From the repo root:
+Use this if you want to compile the app yourself (e.g. to use a different Flutter version or patch the code).
+
+#### Prerequisites
+
+- **Flutter SDK** — Use a version compatible with the project (see `pubspec.yaml`: Dart `^3.10.7`, Flutter stable).
+- **Linux**: `clang`, `cmake`, `gtk3` dev packages, and `ninja` (e.g. on Debian/Ubuntu: `sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev`).
+
+#### Build steps
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/Katekko/scloud_desktop.git
+   cd scloud_desktop
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   flutter pub get
+   ```
+
+3. **Build for your platform**
+
+   - **Linux (release bundle)**
+
+     ```bash
+     flutter build linux
+     ```
+
+     Run the app from: `build/linux/x64/release/bundle/` (e.g. `./scloud_desktop` or the executable name in that folder).
+
+4. **Run in debug (optional)**
+
+   ```bash
+   flutter run -d linux
+   ```
+
+   Or use the VS Code/Cursor launch config **scloud_desktop (Linux)**.
+
+#### Verifying Flutter
 
 ```bash
-flutter pub get
-flutter run -d linux
+flutter doctor
 ```
 
-Or use the VS Code/Cursor launch config **scloud_desktop (Linux)**.
+Fix any reported issues before building.
 
-### Localization (l10n)
+---
+
+## Localization (l10n)
 
 After editing ARB files under `lib/l10n/`, regenerate:
 
@@ -28,7 +70,9 @@ After editing ARB files under `lib/l10n/`, regenerate:
 flutter gen-l10n
 ```
 
-(or run `flutter pub get` which triggers generation when `flutter: generate: true` is set).
+(or run `flutter pub get` if `flutter: generate: true` is set in `pubspec.yaml`).
+
+---
 
 ## Login flow
 
