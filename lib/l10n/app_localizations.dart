@@ -321,6 +321,534 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tailing logs…'**
   String get tailingLogs;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get value;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading…'**
+  String get loading;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @envVarsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment variables'**
+  String get envVarsTitle;
+
+  /// No description provided for @noEnvVars.
+  ///
+  /// In en, this message translates to:
+  /// **'No environment variables.'**
+  String get noEnvVars;
+
+  /// No description provided for @addEnvVar.
+  ///
+  /// In en, this message translates to:
+  /// **'Add environment variable'**
+  String get addEnvVar;
+
+  /// No description provided for @editEnvVar.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit environment variable'**
+  String get editEnvVar;
+
+  /// No description provided for @deleteEnvVar.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete environment variable'**
+  String get deleteEnvVar;
+
+  /// No description provided for @confirmDeleteEnvVar.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete'**
+  String get confirmDeleteEnvVar;
+
+  /// No description provided for @envVarName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get envVarName;
+
+  /// No description provided for @envVarValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get envVarValue;
+
+  /// No description provided for @secretsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Secrets'**
+  String get secretsTitle;
+
+  /// No description provided for @noSecrets.
+  ///
+  /// In en, this message translates to:
+  /// **'No secrets.'**
+  String get noSecrets;
+
+  /// No description provided for @addSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Add secret'**
+  String get addSecret;
+
+  /// No description provided for @deleteSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete secret'**
+  String get deleteSecret;
+
+  /// No description provided for @confirmDeleteSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete secret'**
+  String get confirmDeleteSecret;
+
+  /// No description provided for @secretKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get secretKey;
+
+  /// No description provided for @secretValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get secretValue;
+
+  /// No description provided for @secretsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret values are write-only and cannot be read back.'**
+  String get secretsNote;
+
+  /// No description provided for @domainsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom domains'**
+  String get domainsTitle;
+
+  /// No description provided for @noDomains.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom domains.'**
+  String get noDomains;
+
+  /// No description provided for @addDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Add domain'**
+  String get addDomain;
+
+  /// No description provided for @removeDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove domain'**
+  String get removeDomain;
+
+  /// No description provided for @confirmRemoveDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove domain'**
+  String get confirmRemoveDomain;
+
+  /// No description provided for @domainName.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain name'**
+  String get domainName;
+
+  /// No description provided for @domainTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Target'**
+  String get domainTarget;
+
+  /// No description provided for @domainTargetApi.
+  ///
+  /// In en, this message translates to:
+  /// **'API'**
+  String get domainTargetApi;
+
+  /// No description provided for @domainTargetWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Web'**
+  String get domainTargetWeb;
+
+  /// No description provided for @domainTargetInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get domainTargetInsights;
+
+  /// No description provided for @refreshDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh DNS'**
+  String get refreshDns;
+
+  /// No description provided for @dnsStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS status'**
+  String get dnsStatus;
+
+  /// No description provided for @databaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Database'**
+  String get databaseTitle;
+
+  /// No description provided for @connectionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection details'**
+  String get connectionDetails;
+
+  /// No description provided for @host.
+  ///
+  /// In en, this message translates to:
+  /// **'Host'**
+  String get host;
+
+  /// No description provided for @port.
+  ///
+  /// In en, this message translates to:
+  /// **'Port'**
+  String get port;
+
+  /// No description provided for @databaseName.
+  ///
+  /// In en, this message translates to:
+  /// **'Database'**
+  String get databaseName;
+
+  /// No description provided for @databaseUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get databaseUser;
+
+  /// No description provided for @requiresSsl.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires SSL'**
+  String get requiresSsl;
+
+  /// No description provided for @createSuperUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Create super user'**
+  String get createSuperUser;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPassword;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @passwordCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Password copied to clipboard'**
+  String get passwordCopied;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @copyPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy password'**
+  String get copyPassword;
+
+  /// No description provided for @redeploy.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeploy'**
+  String get redeploy;
+
+  /// No description provided for @confirmRedeploy.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to redeploy this project?'**
+  String get confirmRedeploy;
+
+  /// No description provided for @redeployStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeploy started'**
+  String get redeployStarted;
+
+  /// No description provided for @redeployFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeploy failed'**
+  String get redeployFailed;
+
+  /// No description provided for @createProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Create project'**
+  String get createProject;
+
+  /// No description provided for @deleteProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete project'**
+  String get deleteProject;
+
+  /// No description provided for @confirmDeleteProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to permanently delete this project? This action cannot be undone.'**
+  String get confirmDeleteProject;
+
+  /// No description provided for @projectId.
+  ///
+  /// In en, this message translates to:
+  /// **'Project ID'**
+  String get projectId;
+
+  /// No description provided for @projectCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Project created'**
+  String get projectCreated;
+
+  /// No description provided for @projectDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Project deleted'**
+  String get projectDeleted;
+
+  /// No description provided for @createProjectFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create project'**
+  String get createProjectFailed;
+
+  /// No description provided for @createProjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure you have a valid payment method registered at the Serverpod Cloud console before creating a project.'**
+  String get createProjectHint;
+
+  /// No description provided for @openConsole.
+  ///
+  /// In en, this message translates to:
+  /// **'Open console'**
+  String get openConsole;
+
+  /// No description provided for @usersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Users & roles'**
+  String get usersTitle;
+
+  /// No description provided for @noUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'No users.'**
+  String get noUsers;
+
+  /// No description provided for @inviteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite user'**
+  String get inviteUser;
+
+  /// No description provided for @revokeUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke user'**
+  String get revokeUser;
+
+  /// No description provided for @confirmRevokeUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to revoke all roles from'**
+  String get confirmRevokeUser;
+
+  /// No description provided for @roles.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get roles;
+
+  /// No description provided for @selectRoles.
+  ///
+  /// In en, this message translates to:
+  /// **'Select roles'**
+  String get selectRoles;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @accountStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Account status'**
+  String get accountStatus;
+
+  /// No description provided for @billingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing & plans'**
+  String get billingTitle;
+
+  /// No description provided for @subscriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get subscriptionTitle;
+
+  /// No description provided for @planName.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get planName;
+
+  /// No description provided for @planDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get planDescription;
+
+  /// No description provided for @startDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get startDate;
+
+  /// No description provided for @trialEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Trial ends'**
+  String get trialEndDate;
+
+  /// No description provided for @projectsLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects limit'**
+  String get projectsLimit;
+
+  /// No description provided for @paymentMethodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment methods'**
+  String get paymentMethodsTitle;
+
+  /// No description provided for @noPaymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'No payment methods on file.'**
+  String get noPaymentMethods;
+
+  /// No description provided for @expires.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get expires;
+
+  /// No description provided for @defaultLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultLabel;
+
+  /// No description provided for @availablePlans.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plans'**
+  String get availablePlans;
 }
 
 class _AppLocalizationsDelegate

@@ -47,13 +47,65 @@ class _StatusScreenState extends State<StatusScreen> {
             },
             builder: (context, projectId) {
               if (projectId == null) return const SizedBox.shrink();
-              return IconButton(
-                icon: const Icon(Icons.terminal),
-                tooltip: l10n.containerLogsTitle,
-                onPressed: () => context.push(
-                  AppRoutes.containerLogs,
-                  extra: {'projectId': projectId},
-                ),
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.terminal),
+                    tooltip: l10n.containerLogsTitle,
+                    onPressed: () => context.push(
+                      AppRoutes.containerLogs,
+                      extra: {'projectId': projectId},
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert),
+                    onSelected: (route) =>
+                        context.push(route, extra: {'projectId': projectId}),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: AppRoutes.envVars,
+                        child: ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: Text(l10n.envVarsTitle),
+                          dense: true,
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: AppRoutes.secrets,
+                        child: ListTile(
+                          leading: const Icon(Icons.key),
+                          title: Text(l10n.secretsTitle),
+                          dense: true,
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: AppRoutes.domains,
+                        child: ListTile(
+                          leading: const Icon(Icons.dns),
+                          title: Text(l10n.domainsTitle),
+                          dense: true,
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: AppRoutes.database,
+                        child: ListTile(
+                          leading: const Icon(Icons.storage),
+                          title: Text(l10n.databaseTitle),
+                          dense: true,
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: AppRoutes.users,
+                        child: ListTile(
+                          leading: const Icon(Icons.group),
+                          title: Text(l10n.usersTitle),
+                          dense: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               );
             },
           ),
@@ -144,6 +196,12 @@ class _StatusScreenState extends State<StatusScreen> {
                         label: l10n.environment,
                         value: status.environment!,
                       ),
+                    const SizedBox(height: 16),
+                    FilledButton.icon(
+                      icon: const Icon(Icons.rocket_launch),
+                      label: Text(l10n.redeploy),
+                      onPressed: () => _confirmRedeploy(context, cubit, l10n),
+                    ),
                     const SizedBox(height: 24),
                     Text(
                       l10n.deployHistory,
@@ -169,6 +227,42 @@ class _StatusScreenState extends State<StatusScreen> {
               ),
           };
         },
+      ),
+    );
+  }
+
+  void _confirmRedeploy(
+    BuildContext context,
+    StatusCubit cubit,
+    AppLocalizations l10n,
+  ) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.redeploy),
+        content: Text(l10n.confirmRedeploy),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final success = await cubit.redeploy();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      success ? l10n.redeployStarted : l10n.redeployFailed,
+                    ),
+                  ),
+                );
+              }
+            },
+            child: Text(l10n.redeploy),
+          ),
+        ],
       ),
     );
   }

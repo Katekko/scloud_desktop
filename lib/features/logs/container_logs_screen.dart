@@ -10,10 +10,7 @@ import 'container_logs_state.dart';
 
 /// Screen showing real-time container logs for a project.
 class ContainerLogsScreen extends StatefulWidget {
-  const ContainerLogsScreen({
-    super.key,
-    required this.projectId,
-  });
+  const ContainerLogsScreen({super.key, required this.projectId});
 
   final String projectId;
 
@@ -44,106 +41,106 @@ class _ContainerLogsScreenState extends State<ContainerLogsScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(l10n.containerLogsTitle),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
-          ),
+      appBar: AppBar(
+        title: Text(l10n.containerLogsTitle),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
         ),
-        body: BlocConsumer<ContainerLogsCubit, ContainerLogsState>(
-          listenWhen: (prev, next) =>
-              next is ContainerLogsStreaming && prev is ContainerLogsStreaming,
-          listener: (context, state) {
-            if (state is ContainerLogsStreaming && _autoScroll) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (_scrollController.hasClients) {
-                  _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 150),
-                    curve: Curves.easeOut,
-                  );
-                }
-              });
-            }
-          },
-          builder: (context, state) {
-            return switch (state) {
-              ContainerLogsLoading() => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CircularProgressIndicator(),
-                      const SizedBox(height: 16),
-                      Text(l10n.tailingLogs),
-                    ],
-                  ),
+      ),
+      body: BlocConsumer<ContainerLogsCubit, ContainerLogsState>(
+        listenWhen: (prev, next) =>
+            next is ContainerLogsStreaming && prev is ContainerLogsStreaming,
+        listener: (context, state) {
+          if (state is ContainerLogsStreaming && _autoScroll) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (_scrollController.hasClients) {
+                _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 150),
+                  curve: Curves.easeOut,
+                );
+              }
+            });
+          }
+        },
+        builder: (context, state) {
+          return switch (state) {
+            ContainerLogsLoading() => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(l10n.tailingLogs),
+                ],
+              ),
+            ),
+            ContainerLogsError(:final message) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      message,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-              ContainerLogsError(:final message) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              ),
+            ),
+            ContainerLogsStreaming(:final records) => Column(
+              children: [
+                if (records.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Row(
                       children: [
                         Text(
-                          message,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          textAlign: TextAlign.center,
+                          '${records.length} records',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        const Spacer(),
+                        CheckboxListTile(
+                          value: _autoScroll,
+                          onChanged: (v) {
+                            setState(() => _autoScroll = v ?? true);
+                          },
+                          title: Text(
+                            'Auto-scroll',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          contentPadding: EdgeInsets.zero,
+                          dense: true,
                         ),
                       ],
                     ),
                   ),
-                ),
-              ContainerLogsStreaming(:final records) => Column(
-                  children: [
-                    if (records.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                Expanded(
+                  child: records.isEmpty
+                      ? Center(child: Text(l10n.tailingLogs))
+                      : ListView.builder(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.all(16),
+                          itemCount: records.length,
+                          itemBuilder: (context, index) {
+                            final r = records[index];
+                            return _LogRow(record: r);
+                          },
                         ),
-                        child: Row(
-                          children: [
-                            Text(
-                              '${records.length} records',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            const Spacer(),
-                            CheckboxListTile(
-                              value: _autoScroll,
-                              onChanged: (v) {
-                                setState(() => _autoScroll = v ?? true);
-                              },
-                              title: Text(
-                                'Auto-scroll',
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              contentPadding: EdgeInsets.zero,
-                              dense: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                    Expanded(
-                      child: records.isEmpty
-                          ? Center(child: Text(l10n.tailingLogs))
-                          : ListView.builder(
-                              controller: _scrollController,
-                              padding: const EdgeInsets.all(16),
-                              itemCount: records.length,
-                              itemBuilder: (context, index) {
-                                final r = records[index];
-                                return _LogRow(record: r);
-                              },
-                            ),
-                    ),
-                  ],
                 ),
-            };
-          },
-        ),
-      );
+              ],
+            ),
+          };
+        },
+      ),
+    );
   }
 }
 

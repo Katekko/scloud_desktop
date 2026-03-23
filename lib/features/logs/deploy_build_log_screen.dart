@@ -50,45 +50,46 @@ class DeployBuildLogScreen extends StatelessWidget {
           final cubit = context.read<DeployBuildLogCubit>();
           return switch (state) {
             DeployBuildLogLoading() => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(l10n.loadingLogs),
+                ],
+              ),
+            ),
+            DeployBuildLogError(:final message) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CircularProgressIndicator(),
+                    Text(
+                      message,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 16),
-                    Text(l10n.loadingLogs),
+                    FilledButton(
+                      onPressed: () => cubit.retry(projectId, attemptId),
+                      child: Text(l10n.retry),
+                    ),
                   ],
                 ),
               ),
-            DeployBuildLogError(:final message) => Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        message,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      FilledButton(
-                        onPressed: () => cubit.retry(projectId, attemptId),
-                        child: Text(l10n.retry),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            DeployBuildLogLoaded(:final records) => records.isEmpty
-                ? Center(child: Text(l10n.noLogs))
-                : ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: records.length,
-                    itemBuilder: (context, index) {
-                      final r = records[index];
-                      return _LogRow(record: r);
-                    },
-                  ),
+            ),
+            DeployBuildLogLoaded(:final records) =>
+              records.isEmpty
+                  ? Center(child: Text(l10n.noLogs))
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: records.length,
+                      itemBuilder: (context, index) {
+                        final r = records[index];
+                        return _LogRow(record: r);
+                      },
+                    ),
           };
         },
       ),

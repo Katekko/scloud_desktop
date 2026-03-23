@@ -229,6 +229,433 @@ class ProjectRepository {
     return controller.stream;
   }
 
+  // ---------------------------------------------------------------------------
+  // Environment Variables
+  // ---------------------------------------------------------------------------
+
+  /// Lists all environment variables for [projectId].
+  Future<List<EnvironmentVariable>> listEnvVars(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.environmentVariables.list(projectId);
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'listEnvVars error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Creates a new environment variable.
+  Future<EnvironmentVariable> createEnvVar(
+    String projectId,
+    String name,
+    String value,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.environmentVariables.create(
+        name,
+        value,
+        projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'createEnvVar error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Updates an existing environment variable.
+  Future<EnvironmentVariable> updateEnvVar(
+    String projectId,
+    String name,
+    String value,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.environmentVariables.update(
+        name: name,
+        value: value,
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'updateEnvVar error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Deletes an environment variable.
+  Future<EnvironmentVariable> deleteEnvVar(
+    String projectId,
+    String name,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.environmentVariables.delete(
+        cloudCapsuleId: projectId,
+        name: name,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'deleteEnvVar error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Secrets
+  // ---------------------------------------------------------------------------
+
+  /// Lists all secrets for [projectId].
+  Future<List<String>> listSecrets(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.secrets.list(projectId);
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'listSecrets error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Creates or updates secrets.
+  Future<void> upsertSecret(String projectId, String key, String value) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.secrets.upsert(
+        secrets: {key: value},
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'upsertSecret error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Deletes a secret by key.
+  Future<void> deleteSecret(String projectId, String key) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.secrets.delete(
+        key: key,
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'deleteSecret error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Custom Domains
+  // ---------------------------------------------------------------------------
+
+  /// Lists custom domains for [projectId].
+  Future<CustomDomainNameList> listDomains(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.customDomainName.list(
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'listDomains error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Adds a custom domain.
+  Future<CustomDomainNameWithDefaultDomains> addDomain(
+    String projectId,
+    String domainName,
+    DomainNameTarget target,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.customDomainName.add(
+        domainName: domainName,
+        target: target,
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'addDomain error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Removes a custom domain.
+  Future<void> removeDomain(String projectId, String domainName) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.customDomainName.remove(
+        domainName: domainName,
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'removeDomain error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Refreshes DNS status of a custom domain.
+  Future<DomainNameStatus> refreshDomain(
+    String projectId,
+    String domainName,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.customDomainName.refreshRecord(
+        domainName: domainName,
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'refreshDomain error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Database
+  // ---------------------------------------------------------------------------
+
+  /// Gets database connection details for [projectId].
+  Future<DatabaseConnection> getDatabaseConnection(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.database.getConnectionDetails(
+        cloudCapsuleId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'getDatabaseConnection error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Creates a database super user. Returns the generated password.
+  Future<String> createDatabaseSuperUser(
+    String projectId,
+    String username,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.database.createSuperUser(
+        cloudCapsuleId: projectId,
+        username: username,
+      );
+    } catch (e) {
+      AppDebug.logError(
+        'ProjectRepository',
+        'createDatabaseSuperUser error: $e',
+      );
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Resets a database user password. Returns the new password.
+  Future<String> resetDatabasePassword(
+    String projectId,
+    String username,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.database.resetDatabasePassword(
+        cloudCapsuleId: projectId,
+        username: username,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'resetDatabasePassword error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Redeploy
+  // ---------------------------------------------------------------------------
+
+  /// Redeploys a project capsule.
+  Future<void> redeployCapsule(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.adminProjects.redeployCapsule(projectId);
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'redeployCapsule error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Project Create / Delete
+  // ---------------------------------------------------------------------------
+
+  /// Creates a new project.
+  Future<void> createProject(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.projects.createProject(
+        cloudProjectId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'createProject error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Deletes a project.
+  Future<void> deleteProject(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.projects.deleteProject(
+        cloudProjectId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'deleteProject error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Users & Roles
+  // ---------------------------------------------------------------------------
+
+  /// Lists users in a project.
+  Future<List<User>> listProjectUsers(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.users.listUsersInProject(
+        cloudProjectId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'listProjectUsers error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Invites a user to a project with specified roles.
+  Future<void> inviteUser(
+    String projectId,
+    String email,
+    List<String> roles,
+  ) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.projects.inviteUser(
+        cloudProjectId: projectId,
+        email: email,
+        assignRoleNames: roles,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'inviteUser error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Revokes all roles from a user in a project.
+  Future<void> revokeUser(String projectId, String email) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      await provider.cloudApiClient.projects.revokeUser(
+        cloudProjectId: projectId,
+        email: email,
+        unassignAllRoles: true,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'revokeUser error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  /// Fetches available roles for a project.
+  Future<List<Role>> fetchProjectRoles(String projectId) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      return await provider.cloudApiClient.roles.fetchRolesForProject(
+        cloudProjectId: projectId,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'fetchProjectRoles error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
   /// Resolves a [Project] from a server directory path.
   ///
   /// Returns the project if the directory contains a valid scloud.yaml linked
