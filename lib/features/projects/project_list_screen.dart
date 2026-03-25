@@ -38,6 +38,11 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
         title: Text(l10n.projectListTitle),
         actions: [
           IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: l10n.retry,
+            onPressed: () => cubit.loadProjects(),
+          ),
+          IconButton(
             icon: const Icon(Icons.receipt_long),
             tooltip: l10n.billingTitle,
             onPressed: () => context.push(AppRoutes.billing),
