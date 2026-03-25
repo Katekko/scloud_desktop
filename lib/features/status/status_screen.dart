@@ -23,7 +23,9 @@ class _StatusScreenState extends State<StatusScreen> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.loadStatus();
+    if (widget.cubit.state is! StatusLoaded) {
+      widget.cubit.loadStatus();
+    }
   }
 
   @override
