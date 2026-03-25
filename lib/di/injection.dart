@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/auth/auth_cubit.dart';
 import '../features/auth/auth_repository.dart';
 import '../features/billing/billing_cubit.dart';
 import '../features/database/database_cubit.dart';
+import '../features/deploy/deploy_cubit.dart';
+import '../features/deploy/project_directory_storage.dart';
 import '../features/domains/domains_cubit.dart';
 import '../features/env_vars/env_vars_cubit.dart';
 import '../features/logs/container_logs_cubit.dart';
@@ -27,7 +30,12 @@ class AuthRefreshNotifier extends ChangeNotifier {
 
 /// Configures dependency injection. Call from [main] before [runApp].
 Future<void> configureDependencies() async {
+  final prefs = await SharedPreferences.getInstance();
+
   getIt
+    ..registerLazySingleton<ProjectDirectoryStorage>(
+      () => ProjectDirectoryStorage(prefs),
+    )
     ..registerLazySingleton<AuthRepository>(AuthRepository.new)
     ..registerLazySingleton<AuthCubit>(() => AuthCubit(getIt<AuthRepository>()))
     ..registerLazySingleton<AuthRefreshNotifier>(
@@ -59,6 +67,12 @@ Future<void> configureDependencies() async {
       () => DatabaseCubit(getIt<ProjectRepository>()),
     )
     ..registerFactory<UsersCubit>(() => UsersCubit(getIt<ProjectRepository>()))
+    ..registerFactory<DeployCubit>(
+      () => DeployCubit(
+        getIt<ProjectRepository>(),
+        getIt<ProjectDirectoryStorage>(),
+      ),
+    )
     ..registerFactory<ProfileCubit>(ProfileCubit.new)
     ..registerFactory<BillingCubit>(BillingCubit.new);
 

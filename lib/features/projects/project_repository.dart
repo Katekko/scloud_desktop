@@ -4,6 +4,7 @@ import 'package:ground_control_client/ground_control_client.dart' hide Project;
 import 'package:serverpod_cloud_cli/command_logger/command_logger.dart';
 import 'package:serverpod_cloud_cli/command_runner/cloud_cli_command_runner.dart';
 import 'package:serverpod_cloud_cli/command_runner/helpers/cloud_cli_service_provider.dart';
+import 'package:serverpod_cloud_cli/commands/deploy/deploy.dart';
 import 'package:serverpod_cloud_cli/commands/status/status_feature.dart';
 import 'package:serverpod_cloud_cli/shared/exceptions/exit_exceptions.dart';
 import 'package:serverpod_cloud_cli/util/scloud_config/scloud_config_io.dart';
@@ -513,6 +514,39 @@ class ProjectRepository {
       );
     } catch (e) {
       AppDebug.logError('ProjectRepository', 'resetDatabasePassword error: $e');
+      rethrow;
+    } finally {
+      provider.shutdown();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Deploy
+  // ---------------------------------------------------------------------------
+
+  /// Deploys a project by zipping and uploading from [projectDir].
+  Future<void> deployProject({
+    required String projectId,
+    required String projectDir,
+  }) async {
+    final provider = CloudCliServiceProvider();
+    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+
+    try {
+      final configPath = '$projectDir/scloud.yaml';
+      await Deploy.deploy(
+        provider.cloudApiClient,
+        provider.fileUploaderFactory,
+        logger: _logger,
+        projectId: projectId,
+        projectDir: projectDir,
+        projectConfigFilePath: configPath,
+        concurrency: 5,
+        dryRun: false,
+        showFiles: false,
+      );
+    } catch (e) {
+      AppDebug.logError('ProjectRepository', 'deployProject error: $e');
       rethrow;
     } finally {
       provider.shutdown();

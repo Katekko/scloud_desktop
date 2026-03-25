@@ -11,6 +11,7 @@ import '../features/billing/billing_cubit.dart';
 import '../features/billing/billing_screen.dart';
 import '../features/database/database_cubit.dart';
 import '../features/database/database_screen.dart';
+import '../features/deploy/deploy_cubit.dart';
 import '../features/domains/domains_cubit.dart';
 import '../features/domains/domains_screen.dart';
 import '../features/env_vars/env_vars_cubit.dart';
@@ -131,7 +132,15 @@ GoRouter createAppRouter() {
           if (authState is! Authenticated) {
             return const SizedBox.shrink();
           }
-          return StatusScreen(cubit: getIt<StatusCubit>());
+          final deployCubit = getIt<DeployCubit>();
+          final projectId = getIt<ProjectListCubit>().currentProject?.id;
+          if (projectId != null) {
+            deployCubit.loadDirectory(projectId);
+          }
+          return BlocProvider.value(
+            value: deployCubit,
+            child: StatusScreen(cubit: getIt<StatusCubit>()),
+          );
         },
       ),
       GoRoute(

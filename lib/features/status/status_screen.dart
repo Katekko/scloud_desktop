@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:ground_control_client/ground_control_client.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:scloud_desktop/features/deploy/deploy_cubit.dart';
+import 'package:scloud_desktop/features/deploy/deploy_state.dart';
 import 'package:scloud_desktop/features/projects/project_status.dart';
 import 'package:scloud_desktop/l10n/app_localizations.dart';
 import 'package:scloud_desktop/router/app_router.dart';
@@ -220,6 +222,8 @@ class _StatusScreenState extends State<StatusScreen> {
                         ),
                     ],
                     const SizedBox(height: 24),
+                    _DeploySection(projectId: projectId, l10n: l10n),
+                    const SizedBox(height: 24),
                     Text(
                       l10n.deployHistory,
                       style: Theme.of(context).textTheme.titleMedium,
@@ -366,6 +370,174 @@ String _domainTargetLabel(DomainNameTarget target) {
     DomainNameTarget.web => 'Web',
     DomainNameTarget.insights => 'Insights',
   };
+}
+
+class _DeploySection extends StatelessWidget {
+  const _DeploySection({required this.projectId, required this.l10n});
+
+  final String projectId;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return BlocConsumer<DeployCubit, DeployState>(
+      listener: (context, state) {
+        if (state is DeployError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('${l10n.deployFailed}: ${state.message}')),
+          );
+        }
+      },
+      builder: (context, state) {
+        final deployCubit = context.read<DeployCubit>();
+        return switch (state) {
+          DeployDirectoryNotConfigured() => Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.folder_off,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l10n.projectNotLinked,
+                          style: theme.textTheme.titleSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.projectNotLinkedDescription,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    icon: const Icon(Icons.folder_open),
+                    label: Text(l10n.linkDirectory),
+                    onPressed: () => _pickDirectory(context, deployCubit),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          DeployDirectoryConfigured(:final directoryPath) => Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.linkedDirectory, style: theme.textTheme.labelLarge),
+                  const SizedBox(height: 4),
+                  Text(directoryPath, style: theme.textTheme.bodyMedium),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      FilledButton.icon(
+                        icon: const Icon(Icons.rocket_launch),
+                        label: Text(l10n.deploy),
+                        onPressed: () => _deploy(context, deployCubit),
+                      ),
+                      const SizedBox(width: 12),
+                      OutlinedButton(
+                        onPressed: () => _pickDirectory(context, deployCubit),
+                        child: Text(l10n.changeDirectory),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          DeployInProgress(:final directoryPath) => Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.linkedDirectory, style: theme.textTheme.labelLarge),
+                  const SizedBox(height: 4),
+                  Text(directoryPath, style: theme.textTheme.bodyMedium),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(l10n.deploying),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          DeployError(:final directoryPath) => Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.linkedDirectory, style: theme.textTheme.labelLarge),
+                  const SizedBox(height: 4),
+                  Text(directoryPath, style: theme.textTheme.bodyMedium),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      FilledButton.icon(
+                        icon: const Icon(Icons.rocket_launch),
+                        label: Text(l10n.deploy),
+                        onPressed: () => _deploy(context, deployCubit),
+                      ),
+                      const SizedBox(width: 12),
+                      OutlinedButton(
+                        onPressed: () => _pickDirectory(context, deployCubit),
+                        child: Text(l10n.changeDirectory),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        };
+      },
+    );
+  }
+
+  Future<void> _pickDirectory(
+    BuildContext context,
+    DeployCubit deployCubit,
+  ) async {
+    final error = await deployCubit.pickDirectory(projectId);
+    if (error == 'invalidDirectory' && context.mounted) {
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.invalidDirectory)));
+    }
+  }
+
+  Future<void> _deploy(BuildContext context, DeployCubit deployCubit) async {
+    final success = await deployCubit.deploy(projectId);
+    if (context.mounted && success) {
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.deployStarted)));
+      // Refresh deploy history
+      context.read<StatusCubit>().loadStatus();
+    }
+  }
 }
 
 class _LinkRow extends StatelessWidget {

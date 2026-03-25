@@ -299,17 +299,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get copyPassword => 'Copy password';
 
   @override
-  String get redeploy => 'Redeploy';
+  String get linkDirectory => 'Link directory';
 
   @override
-  String get confirmRedeploy =>
-      'Are you sure you want to redeploy this project?';
+  String get projectNotLinked => 'Project not linked to a local directory';
 
   @override
-  String get redeployStarted => 'Redeploy started';
+  String get projectNotLinkedDescription =>
+      'Link this project to a local Serverpod server directory to enable deployment.';
 
   @override
-  String get redeployFailed => 'Redeploy failed';
+  String get linkedDirectory => 'Linked directory';
+
+  @override
+  String get changeDirectory => 'Change';
+
+  @override
+  String get deploy => 'Deploy';
+
+  @override
+  String get deploying => 'Deploying…';
+
+  @override
+  String get deployStarted => 'Deploy started successfully!';
+
+  @override
+  String get deployFailed => 'Deploy failed';
+
+  @override
+  String get invalidDirectory =>
+      'The selected directory does not contain a valid scloud.yaml file.';
 
   @override
   String get createProject => 'Create project';

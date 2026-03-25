@@ -664,29 +664,65 @@ abstract class AppLocalizations {
   /// **'Copy password'**
   String get copyPassword;
 
-  /// No description provided for @redeploy.
+  /// No description provided for @linkDirectory.
   ///
   /// In en, this message translates to:
-  /// **'Redeploy'**
-  String get redeploy;
+  /// **'Link directory'**
+  String get linkDirectory;
 
-  /// No description provided for @confirmRedeploy.
+  /// No description provided for @projectNotLinked.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to redeploy this project?'**
-  String get confirmRedeploy;
+  /// **'Project not linked to a local directory'**
+  String get projectNotLinked;
 
-  /// No description provided for @redeployStarted.
+  /// No description provided for @projectNotLinkedDescription.
   ///
   /// In en, this message translates to:
-  /// **'Redeploy started'**
-  String get redeployStarted;
+  /// **'Link this project to a local Serverpod server directory to enable deployment.'**
+  String get projectNotLinkedDescription;
 
-  /// No description provided for @redeployFailed.
+  /// No description provided for @linkedDirectory.
   ///
   /// In en, this message translates to:
-  /// **'Redeploy failed'**
-  String get redeployFailed;
+  /// **'Linked directory'**
+  String get linkedDirectory;
+
+  /// No description provided for @changeDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get changeDirectory;
+
+  /// No description provided for @deploy.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploy'**
+  String get deploy;
+
+  /// No description provided for @deploying.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploying…'**
+  String get deploying;
+
+  /// No description provided for @deployStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploy started successfully!'**
+  String get deployStarted;
+
+  /// No description provided for @deployFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploy failed'**
+  String get deployFailed;
+
+  /// No description provided for @invalidDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'The selected directory does not contain a valid scloud.yaml file.'**
+  String get invalidDirectory;
 
   /// No description provided for @createProject.
   ///
