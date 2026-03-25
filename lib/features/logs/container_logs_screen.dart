@@ -151,14 +151,16 @@ class _ContainerLogsScreenState extends State<ContainerLogsScreen> {
                 Expanded(
                   child: records.isEmpty
                       ? Center(child: Text(l10n.tailingLogs))
-                      : ListView.builder(
-                          controller: _scrollController,
-                          padding: const EdgeInsets.all(16),
-                          itemCount: records.length,
-                          itemBuilder: (context, index) {
-                            final r = records[index];
-                            return _LogRow(record: r);
-                          },
+                      : SelectionArea(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.all(16),
+                            itemCount: records.length,
+                            itemBuilder: (context, index) {
+                              final r = records[index];
+                              return _LogRow(record: r);
+                            },
+                          ),
                         ),
                 ),
               ],
@@ -209,10 +211,7 @@ class _LogRow extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: SelectableText(
-              record.content,
-              style: theme.textTheme.bodyMedium,
-            ),
+            child: Text(record.content, style: theme.textTheme.bodyMedium),
           ),
         ],
       ),

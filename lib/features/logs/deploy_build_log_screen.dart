@@ -108,13 +108,15 @@ class DeployBuildLogScreen extends StatelessWidget {
             DeployBuildLogLoaded(:final records) =>
               records.isEmpty
                   ? Center(child: Text(l10n.noLogs))
-                  : ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: records.length,
-                      itemBuilder: (context, index) {
-                        final r = records[index];
-                        return _LogRow(record: r);
-                      },
+                  : SelectionArea(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: records.length,
+                        itemBuilder: (context, index) {
+                          final r = records[index];
+                          return _LogRow(record: r);
+                        },
+                      ),
                     ),
           };
         },
@@ -162,10 +164,7 @@ class _LogRow extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: SelectableText(
-              record.content,
-              style: theme.textTheme.bodyMedium,
-            ),
+            child: Text(record.content, style: theme.textTheme.bodyMedium),
           ),
         ],
       ),
