@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -44,6 +45,31 @@ class DeployBuildLogScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
         ),
+        actions: [
+          BlocBuilder<DeployBuildLogCubit, DeployBuildLogState>(
+            builder: (context, state) {
+              if (state is! DeployBuildLogLoaded || state.records.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return IconButton(
+                icon: const Icon(Icons.copy),
+                tooltip: l10n.copyAllLogs,
+                onPressed: () {
+                  final text = state.records
+                      .map(
+                        (r) =>
+                            '${_LogRow.formatTimestamp(r.timestamp)} ${r.severity ?? '—'} ${r.content}',
+                      )
+                      .join('\n');
+                  Clipboard.setData(ClipboardData(text: text));
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(l10n.logsCopied)));
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<DeployBuildLogCubit, DeployBuildLogState>(
         builder: (context, state) {
@@ -102,7 +128,7 @@ class _LogRow extends StatelessWidget {
 
   final LogRecord record;
 
-  static String _formatTimestamp(DateTime dt) {
+  static String formatTimestamp(DateTime dt) {
     return '${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')} '
         '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}:${dt.second.toString().padLeft(2, '0')}';
   }
@@ -118,7 +144,7 @@ class _LogRow extends StatelessWidget {
           SizedBox(
             width: 160,
             child: Text(
-              _formatTimestamp(record.timestamp),
+              formatTimestamp(record.timestamp),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

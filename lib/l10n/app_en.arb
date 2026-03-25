@@ -45,6 +45,8 @@
   "content": "Content",
   "containerLogsTitle": "Container logs",
   "tailingLogs": "Tailing logs…",
+  "copyAllLogs": "Copy all logs",
+  "logsCopied": "Logs copied to clipboard",
 
   "cancel": "Cancel",
   "save": "Save",

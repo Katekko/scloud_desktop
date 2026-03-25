@@ -127,6 +127,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tailingLogs => 'Tailing logs…';
 
   @override
+  String get copyAllLogs => 'Copy all logs';
+
+  @override
+  String get logsCopied => 'Logs copied to clipboard';
+
+  @override
   String get cancel => 'Cancel';
 
   @override

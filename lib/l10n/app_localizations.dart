@@ -322,6 +322,18 @@ abstract class AppLocalizations {
   /// **'Tailing logs…'**
   String get tailingLogs;
 
+  /// No description provided for @copyAllLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy all logs'**
+  String get copyAllLogs;
+
+  /// No description provided for @logsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs copied to clipboard'**
+  String get logsCopied;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
