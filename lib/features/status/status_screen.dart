@@ -196,12 +196,6 @@ class _StatusScreenState extends State<StatusScreen> {
                         label: l10n.environment,
                         value: status.environment!,
                       ),
-                    const SizedBox(height: 16),
-                    FilledButton.icon(
-                      icon: const Icon(Icons.rocket_launch),
-                      label: Text(l10n.redeploy),
-                      onPressed: () => _confirmRedeploy(context, cubit, l10n),
-                    ),
                     const SizedBox(height: 24),
                     Text(
                       l10n.deployHistory,
@@ -227,42 +221,6 @@ class _StatusScreenState extends State<StatusScreen> {
               ),
           };
         },
-      ),
-    );
-  }
-
-  void _confirmRedeploy(
-    BuildContext context,
-    StatusCubit cubit,
-    AppLocalizations l10n,
-  ) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.redeploy),
-        content: Text(l10n.confirmRedeploy),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(l10n.cancel),
-          ),
-          FilledButton(
-            onPressed: () async {
-              Navigator.pop(ctx);
-              final success = await cubit.redeploy();
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      success ? l10n.redeployStarted : l10n.redeployFailed,
-                    ),
-                  ),
-                );
-              }
-            },
-            child: Text(l10n.redeploy),
-          ),
-        ],
       ),
     );
   }

@@ -520,25 +520,6 @@ class ProjectRepository {
   }
 
   // ---------------------------------------------------------------------------
-  // Redeploy
-  // ---------------------------------------------------------------------------
-
-  /// Redeploys a project capsule.
-  Future<void> redeployCapsule(String projectId) async {
-    final provider = CloudCliServiceProvider();
-    provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
-
-    try {
-      await provider.cloudApiClient.adminProjects.redeployCapsule(projectId);
-    } catch (e) {
-      AppDebug.logError('ProjectRepository', 'redeployCapsule error: $e');
-      rethrow;
-    } finally {
-      provider.shutdown();
-    }
-  }
-
-  // ---------------------------------------------------------------------------
   // Project Create / Delete
   // ---------------------------------------------------------------------------
 

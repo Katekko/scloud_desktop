@@ -16,21 +16,6 @@ class StatusCubit extends Cubit<StatusState> {
   final ProjectRepository _repository;
   final ProjectListCubit _projectListCubit;
 
-  /// Redeploys the current project.
-  Future<bool> redeploy() async {
-    final current = _projectListCubit.currentProject;
-    if (current == null) return false;
-
-    try {
-      await _repository.redeployCapsule(current.id);
-      await loadStatus();
-      return true;
-    } catch (e) {
-      AppDebug.logError('StatusCubit', 'redeploy error: $e');
-      return false;
-    }
-  }
-
   /// Loads status for the current project from [ProjectListCubit].
   Future<void> loadStatus() async {
     final current = _projectListCubit.currentProject;
