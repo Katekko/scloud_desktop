@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ground_control_client/ground_control_client.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:scloud_desktop/features/projects/project_status.dart';
 import 'package:scloud_desktop/l10n/app_localizations.dart';
@@ -183,6 +185,7 @@ class _StatusScreenState extends State<StatusScreen> {
               :final projectId,
               :final status,
               :final deployAttempts,
+              :final defaultDomainsByTarget,
             ) =>
               SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
@@ -203,6 +206,19 @@ class _StatusScreenState extends State<StatusScreen> {
                         label: l10n.environment,
                         value: status.environment!,
                       ),
+                    if (defaultDomainsByTarget.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.projectLinks,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      for (final entry in defaultDomainsByTarget.entries)
+                        _LinkRow(
+                          label: _domainTargetLabel(entry.key),
+                          url: entry.value,
+                        ),
+                    ],
                     const SizedBox(height: 24),
                     Text(
                       l10n.deployHistory,
@@ -340,6 +356,49 @@ class _DeployList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
+    );
+  }
+}
+
+String _domainTargetLabel(DomainNameTarget target) {
+  return switch (target) {
+    DomainNameTarget.api => 'API',
+    DomainNameTarget.web => 'Web',
+    DomainNameTarget.insights => 'Insights',
+  };
+}
+
+class _LinkRow extends StatelessWidget {
+  const _LinkRow({required this.label, required this.url});
+
+  final String label;
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 80,
+            child: Text(label, style: theme.textTheme.labelLarge),
+          ),
+          Flexible(
+            child: InkWell(
+              onTap: () => launchUrl(Uri.parse('https://$url')),
+              child: Text(
+                url,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:ground_control_client/ground_control_client.dart';
+
 import '../projects/project_status.dart';
 
 /// State for the project details screen.
@@ -21,11 +23,13 @@ final class StatusLoaded extends StatusState {
     required this.projectId,
     required this.status,
     required this.deployAttempts,
+    this.defaultDomainsByTarget = const {},
   });
 
   final String projectId;
   final ProjectStatus status;
   final List<DeployAttemptInfo> deployAttempts;
+  final Map<DomainNameTarget, String> defaultDomainsByTarget;
 }
 
 /// Network or API error.

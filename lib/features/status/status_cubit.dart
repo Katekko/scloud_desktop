@@ -1,8 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ground_control_client/ground_control_client.dart';
 
 import 'package:scloud_desktop/di/injection.dart';
 import 'package:scloud_desktop/features/projects/project_list_cubit.dart';
 import 'package:scloud_desktop/features/projects/project_repository.dart';
+import 'package:scloud_desktop/features/projects/project_status.dart';
 import 'package:scloud_desktop/shared/debug_log.dart';
 
 import 'status_state.dart';
@@ -28,12 +30,23 @@ class StatusCubit extends Cubit<StatusState> {
     emit(const StatusLoading());
     AppDebug.log('StatusCubit', 'loadStatus for ${current.id}');
     try {
-      final details = await _repository.fetchProjectDetails(current.id);
+      final results = await Future.wait([
+        _repository.fetchProjectDetails(current.id),
+        _repository.listDomains(current.id),
+      ]);
+      final details =
+          results[0]
+              as ({
+                ProjectStatus status,
+                List<DeployAttemptInfo> deployAttempts,
+              });
+      final domains = results[1] as CustomDomainNameList;
       emit(
         StatusLoaded(
           projectId: current.id,
           status: details.status,
           deployAttempts: details.deployAttempts,
+          defaultDomainsByTarget: domains.defaultDomainsByTarget,
         ),
       );
     } catch (e) {

@@ -91,6 +91,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get environment => 'Environment';
 
   @override
+  String get projectLinks => 'Project links';
+
+  @override
   String get statusErrorRetry => 'Failed to load status. Tap to retry.';
 
   @override

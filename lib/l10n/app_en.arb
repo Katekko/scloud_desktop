@@ -27,6 +27,7 @@
   "deploymentState": "Deployment state",
   "lastDeployTime": "Last deploy",
   "environment": "Environment",
+  "projectLinks": "Project links",
   "statusErrorRetry": "Failed to load status. Tap to retry.",
   "invalidServerDirectory": "The selected folder is not a valid Serverpod server linked to Cloud.",
   "chooseServerDirectory": "Choose server directory",

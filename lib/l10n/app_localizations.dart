@@ -256,6 +256,12 @@ abstract class AppLocalizations {
   /// **'Environment'**
   String get environment;
 
+  /// No description provided for @projectLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Project links'**
+  String get projectLinks;
+
   /// No description provided for @statusErrorRetry.
   ///
   /// In en, this message translates to:
