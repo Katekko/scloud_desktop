@@ -51,6 +51,11 @@ class _StatusScreenState extends State<StatusScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
+                    icon: const Icon(Icons.refresh),
+                    tooltip: l10n.retry,
+                    onPressed: () => cubit.loadStatus(),
+                  ),
+                  IconButton(
                     icon: const Icon(Icons.terminal),
                     tooltip: l10n.containerLogsTitle,
                     onPressed: () => context.push(
