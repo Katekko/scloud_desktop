@@ -222,7 +222,12 @@ class _StatusScreenState extends State<StatusScreen> {
                         ),
                     ],
                     const SizedBox(height: 24),
-                    _DeploySection(projectId: projectId, l10n: l10n),
+                    _DeploySection(
+                      projectId: projectId,
+                      l10n: l10n,
+                      statusCubit: cubit,
+                      isProjectDeploying: status.deploymentState == 'Deploying',
+                    ),
                     const SizedBox(height: 24),
                     Text(
                       l10n.deployHistory,
@@ -373,10 +378,17 @@ String _domainTargetLabel(DomainNameTarget target) {
 }
 
 class _DeploySection extends StatelessWidget {
-  const _DeploySection({required this.projectId, required this.l10n});
+  const _DeploySection({
+    required this.projectId,
+    required this.l10n,
+    required this.statusCubit,
+    required this.isProjectDeploying,
+  });
 
   final String projectId;
   final AppLocalizations l10n;
+  final StatusCubit statusCubit;
+  final bool isProjectDeploying;
 
   @override
   Widget build(BuildContext context) {
@@ -440,14 +452,29 @@ class _DeploySection extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      FilledButton.icon(
-                        icon: const Icon(Icons.rocket_launch),
-                        label: Text(l10n.deploy),
-                        onPressed: () => _deploy(context, deployCubit),
-                      ),
+                      isProjectDeploying
+                          ? FilledButton.icon(
+                              icon: const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              label: Text(l10n.deploying),
+                              onPressed: null,
+                            )
+                          : FilledButton.icon(
+                              icon: const Icon(Icons.rocket_launch),
+                              label: Text(l10n.deploy),
+                              onPressed: () => _deploy(context, deployCubit),
+                            ),
                       const SizedBox(width: 12),
                       OutlinedButton(
-                        onPressed: () => _pickDirectory(context, deployCubit),
+                        onPressed: isProjectDeploying
+                            ? null
+                            : () => _pickDirectory(context, deployCubit),
                         child: Text(l10n.changeDirectory),
                       ),
                     ],
@@ -468,13 +495,23 @@ class _DeploySection extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                      FilledButton.icon(
+                        icon: const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        ),
+                        label: Text(l10n.deploying),
+                        onPressed: null,
                       ),
                       const SizedBox(width: 12),
-                      Text(l10n.deploying),
+                      OutlinedButton(
+                        onPressed: null,
+                        child: Text(l10n.changeDirectory),
+                      ),
                     ],
                   ),
                 ],
@@ -493,14 +530,29 @@ class _DeploySection extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      FilledButton.icon(
-                        icon: const Icon(Icons.rocket_launch),
-                        label: Text(l10n.deploy),
-                        onPressed: () => _deploy(context, deployCubit),
-                      ),
+                      isProjectDeploying
+                          ? FilledButton.icon(
+                              icon: const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              label: Text(l10n.deploying),
+                              onPressed: null,
+                            )
+                          : FilledButton.icon(
+                              icon: const Icon(Icons.rocket_launch),
+                              label: Text(l10n.deploy),
+                              onPressed: () => _deploy(context, deployCubit),
+                            ),
                       const SizedBox(width: 12),
                       OutlinedButton(
-                        onPressed: () => _pickDirectory(context, deployCubit),
+                        onPressed: isProjectDeploying
+                            ? null
+                            : () => _pickDirectory(context, deployCubit),
                         child: Text(l10n.changeDirectory),
                       ),
                     ],
@@ -535,7 +587,7 @@ class _DeploySection extends StatelessWidget {
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.deployStarted)));
       // Refresh deploy history
-      context.read<StatusCubit>().loadStatus();
+      statusCubit.loadStatus();
     }
   }
 }

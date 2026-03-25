@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: cli_tools
-      sha256: a082486b3a1c959cf182e950e1b7aa03655677753e47396e7d0255fb18d1dc18
+      sha256: af507d13e9522e207aeacddb1fcb84814f36eed46dd536010d1ee78ef0f99449
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0"
+    version: "0.11.0"
   clock:
     dependency: transitive
     description:
@@ -273,10 +273,10 @@ packages:
     dependency: "direct main"
     description:
       name: ground_control_client
-      sha256: "1968696683a142eee203570f81dce21e6778bb884df6bb1f5710556c3a7a5482"
+      sha256: "221f995efe0ac15cd29e7b666dbd7da03502a5ff3f90db360869bd81cc449f35"
       url: "https://pub.dev"
     source: hosted
-    version: "0.20.0"
+    version: "0.25.0"
   http:
     dependency: transitive
     description:
@@ -389,14 +389,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  mocktail:
-    dependency: transitive
-    description:
-      name: mocktail
-      sha256: "890df3f9688106f25755f26b1c60589a92b3ab91a22b8b224947ad041bf172d8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   nested:
     dependency: transitive
     description:
@@ -545,10 +537,10 @@ packages:
     dependency: "direct main"
     description:
       name: serverpod_cloud_cli
-      sha256: "2c089f98d372d7169f11dd27e8214c5a573367f95d855d3cc0866b10f51d9dfd"
+      sha256: "4d3fe51b0c2b984fd1e997e00d47b842a78feed6bd3da27bd9460e4c20ee6681"
       url: "https://pub.dev"
     source: hosted
-    version: "0.20.0"
+    version: "0.25.0"
   serverpod_serialization:
     dependency: transitive
     description:

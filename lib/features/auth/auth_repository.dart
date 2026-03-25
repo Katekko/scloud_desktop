@@ -37,13 +37,20 @@ class AuthRepository {
         AppDebug.log('AuthRepository', 'existing session; log out first');
         return const AuthError('signInNotCompleted');
       }
-      await AuthLoginCommands.login(
-        logger: _logger,
-        globalConfig: _globalConfig,
-        timeLimit: const Duration(seconds: 300),
-        persistent: true,
-        openBrowser: true,
-      );
+      final provider = CloudCliServiceProvider();
+      provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
+      try {
+        await AuthLoginCommands.login(
+          logger: _logger,
+          globalConfig: _globalConfig,
+          cloudApiClient: provider.cloudApiClient,
+          timeLimit: const Duration(seconds: 300),
+          persistent: true,
+          openBrowser: true,
+        );
+      } finally {
+        provider.shutdown();
+      }
       AppDebug.log('AuthRepository', 'login callback success');
       return restoreSession();
     } on FailureException catch (e) {
@@ -88,7 +95,7 @@ class AuthRepository {
       final provider = CloudCliServiceProvider();
       provider.initialize(globalConfiguration: _globalConfig, logger: _logger);
       try {
-        await provider.cloudApiClient.auth.logoutDevice();
+        await provider.cloudApiClient.authWithAuth.logoutDevice();
       } catch (_) {}
       provider.shutdown();
       await ResourceManager.removeServerpodCloudAuthData(
